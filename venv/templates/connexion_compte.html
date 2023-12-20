@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+
+    {% include 'link.html' %}
+
+
+</head>
+
+<body class="bg-gray-900">
+
+    {% include 'navbar.html' %}
+    <div id="particles-js" style="height: 93vh" class="">
+
+        <div class="flex justify-center align-items-center absolute " style="height: 93vh; left: 31%;">
+
+
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex justify-center  " method="POST"
+                style="width: 40vw; height: 52 vh;">
+                <div class="w-full mt-5">
+
+                    <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Connexion au compte</h1>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="email" name="email" type="email" placeholder="Email">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                            Mot de passe
+                        </label>
+                        <input
+                            class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="password" name="password" type="password" placeholder="******************">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
+                            type="submit">
+                            Connexion
+                        </button>
+                        <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                            href="#">
+                            Mot de passe oublier ?
+                        </a>
+                    </div>
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 mt-3 ml-1"
+                        href="/creation_compte.html">
+                        Créer compte
+                    </a>
+            </form>
+        </div>
+
+    </div>
+
+
+
+    </div>
+
+
+    {% include 'link_js.html' %}
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceuil</title>
+    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+
+    {% include 'link.html' %}
+
+
+  </head>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Roboto&family=Roboto+Condensed:wght@300&display=swap');
+      h1,p,span,h3 {
+        font-family: 'Exo 2', sans-serif;
+        
+    }
+
+  </style>
+  <body class="bg-gray-900">
+
+    {% include 'navbar.html' %}
+    <div id="particles-js" style="height: 93vh" class="">
+
+      <div class="flex justify-center absolute " style="height: 93vh; left: 25%;">
+
+        <div class="flex justify-end items-center" style="width: 50vw; height: 80vh;">
+          <div class=" 	rounded border-hidden flex justify-center align-items-center" style="width:50vw; height: 30vh;  /* Remplacez les valeurs par celles de votre choix */
+          ">
+            <div class="grid grid-cols-1">
+                <h1 class="text-white" style="font-size: 100px;">SAES501</h1>
+                <h3 class="text-gray-600"> Dev by Samuel, Dimitri, Alain, Enzo, Adil</h3>
+            </div>
+
+          </div>
+          
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    {% include 'link_js.html' %}
+
+
+
+
+  </body>
+
+  </html>
