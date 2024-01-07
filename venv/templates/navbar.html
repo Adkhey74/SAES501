@@ -1,38 +1,36 @@
 
 
 
-<nav class="navbar  bg-white h-fit   border-bottom border-body" data-bs-theme="dark" style="height: 7vh; width: 100%;">
-  <ul class="nav nav-pills mb-sm-auto align-items-center align-items-sm-end " id="menu">
+<nav class="navbar  bg-white h-fit   border-bottom border-body" data-bs-theme="dark" style="height: 6vh; width: 100%;">
+  <ul class="nav nav-pills   align-items-sm-center " id="menu">
 
-    <li>    
-      <a href="" class="nav-link align-middle text-xl m-0 pt-0 pb-0 pl-8 text-white">
-        <i class="bi bi-person-circle"></i>
-      </a>      
+    <li class="nav-item absolute top-0   ml-4 ">
+     <img src="../static/media/iut_logo.png" class="cover " alt="" style="height: 6vh; width: 7vw;">
     </li>
 
   </ul>
   <ul class="nav nav-pills mb-sm-auto align-items-center mt-2 align-items-sm-center  mx-2" id="menu">
-    <li class="nav-item border-r ">
+    <li class="nav-item  ">
       <a href="{{url_for('home')}}"
       class="text-base	  font-bold leading-6 text-gray-900  {% if active_page == 'Home' %}underline underline-offset-8{% endif %}"><i
         class="bi bi-house-fill"></i> Acceuil</a>
     </li>
-    <li class="nav-item border-r ml-7">
+    <li class="nav-item  ml-7">
       <a href="{{url_for('configuration')}}"
       class="text-base	 font-bold leading-6 text-gray-900  {% if active_page == 'Configuration' %}underline underline-offset-8{% endif %}"><i class="bi bi-gear-wide-connected"></i>
        Configuration</a>
     </li>
-    <li class="nav-item border-r ml-7">
+    <li class="nav-item  ml-7">
       <a href="{{url_for('graph')}}"
       class="text-base	m-0 font-bold leading-6 text-gray-900  {% if active_page == 'Graph' %}underline underline-offset-8{% endif %}"><i
         class="bi bi-graph-up"></i> Dashboard</a>
     </li>
-    <li class="nav-item border-r ml-7">
+    <li class="nav-item  ml-7">
       <a href="{{url_for('tableau')}}"
       class="text-base	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Tableau' %}underline underline underline-offset-8{% endif %}"><i
         class="bi bi-table"></i> Tableau</a>
     </li>
-    <li class="nav-item border-r ml-7">
+    <li class="nav-item  ml-7">
       <a href="{{url_for('detection')}}"
       class="text-base	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Detection' %}underline underline underline-offset-8{% endif %}"><i
         class="bi bi-thermometer-half"></i> Detection inconfort</a>
@@ -45,7 +43,7 @@
 
   <ul class="nav nav-pills mb-sm-auto align-items-center align-items-sm-end " id="menu">
 
-    <li class="nav-item border-r mt-2 mb-2 mr-4 ">
+    <li class="nav-item  mt-2 mb-2 mr-4 ">
       <a href="{{url_for('connexion')}}"
       class="text-2xl	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Detection' %}underline underline underline-offset-8{% endif %}"><i class="bi bi-person-circle"></i></a>
     </li>
@@ -76,7 +74,7 @@
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid transparent;
-  border-radius: 5px;
+  adius: 5px;
   color: #fff;
 }
 
