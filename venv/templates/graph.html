@@ -2,74 +2,76 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph</title>
-    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph</title>
+  <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
 
-    {% include 'link.html' %}
+  {% include 'link.html' %}
 
 
 </head>
 
 <body class="bg-gray-900">
 
-    {% include 'navbar.html' %}
-    <div id="particles-js" style="height: 93vh" class="">
+  {% include 'navbar.html' %}
+  <div id="particles-js" style="height: 93vh" class="">
 
-        <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
-
-
-            <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
-                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-building"></i></span>
-                <select class="form-select" name="" id="salle">
-                    <option value="D250">D250</option>
-                    <option value="D251">D251</option>
-                    <option value="D252">D252</option>
+    <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
 
 
-                </select>
-            </div>
-
-        </div>
-        <div id="container" class="bg-gray-800 rounded absolute top-32 left-40"
-            style="height: fit-content; width: fit-content;">
-            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
-
-            <canvas id="" class="p-5 temperature" style="height: 35vh; width: 40vw;"></canvas>
-        </div>
-
-        <div id="container" class="bg-gray-800 rounded absolute top-32 right-40"
-            style="height: fit-content; width: fit-content;">
-            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-            <canvas id="" class="p-5 CO2" style="height: 35vh; width: 40vw;"></canvas>
-        </div>
-
-        <div id="container" class="bg-gray-800 rounded absolute bottom-8 left-40"
-            style="height: fit-content; width: fit-content;">
-            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lux)</h1>
-
-            <canvas id="" class="p-5 Luminosité" style="height: 35vh; width: 40vw;"></canvas>
-        </div>
-
-        <div id="container" class="bg-gray-800 rounded absolute bottom-8 right-40"
-            style="height: fit-content; width: fit-content;">
-            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
-
-            <canvas id="" class="p-5 Bruit" style="height: 35vh; width: 40vw;"></canvas>
-        </div>
+      <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
+        <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+            class="bi bi-building"></i></span>
+        <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
+          <option value="D251">D251</option>
+          <option value="D351">D351</option>
+          <option value="D360">D360</option>
 
 
 
-
-
-
+        </select>
+      </div>
 
     </div>
+    <div id="container" class="bg-gray-800 rounded absolute top-32 left-40"
+      style="height: fit-content; width: fit-content;">
+      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
+
+      <canvas id="" class="p-5 temperature" style="height: 35vh; width: 40vw;"></canvas>
+    </div>
+
+    <div id="container" class="bg-gray-800 rounded absolute top-32 right-40"
+      style="height: fit-content; width: fit-content;">
+      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
+      <canvas id="" class="p-5 CO2" style="height: 35vh; width: 40vw;"></canvas>
+    </div>
+
+    <div id="container" class="bg-gray-800 rounded absolute bottom-8 left-40"
+      style="height: fit-content; width: fit-content;">
+      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lux)</h1>
+
+      <canvas id="" class="p-5 Luminosité" style="height: 35vh; width: 40vw;"></canvas>
+    </div>
+
+    <div id="container" class="bg-gray-800 rounded absolute bottom-8 right-40"
+      style="height: fit-content; width: fit-content;">
+      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
+
+      <canvas id="" class="p-5 Bruit" style="height: 35vh; width: 40vw;"></canvas>
     </div>
 
 
-    {% include 'link_js.html' %}
+
+
+
+
+
+  </div>
+  </div>
+
+
+  {% include 'link_js.html' %}
 
 
 
@@ -81,128 +83,175 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#salle').change(() => { location.reload(); })
-        const barChartTemperature = new Chart($('.temperature'), {
-            type: 'line',
-            data: {
-                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            color: 'white' // Définir la couleur du texte de l'axe des x
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: 'white' // Définir la couleur du texte de l'axe des x
-                        }
-                    }
-                }
-            }
-        });
-        const barChartCO2 = new Chart($('.CO2'), {
-            type: 'bar',
-            data: {
-                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(201, 203, 207, 0.2)'
-                    ]
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            color: 'white'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: 'white'
-                        }
-                    }
-                }
-            }
-        });
-        const barChartLuminosité = new Chart($('.Luminosité'), {
-            type: 'bar',
-            data: {
-                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(201, 203, 207, 0.2)'
-                    ]
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            color: 'white'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: 'white'
-                        }
-                    }
-                }
-            }
-        });
+document.addEventListener("DOMContentLoaded", function () {
+  var host = window.location.hostname;
 
-        const barChartBruit = new Chart($('.Bruit'), {
-            type: 'line',
-            data: {
-                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        ticks: {
-                            color: 'white' // Définir la couleur du texte de l'axe des x
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: 'white' // Définir la couleur du texte de l'axe des x
-                        }
+  // Initialiser le graphique une seule fois
+  const barChartTemperature = new Chart($('.temperature'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderWidth: 2,
+                borderColor:'white',
+                backgroundColor: 'whit7'
+
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                        color: 'white'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white'
                     }
                 }
+            },
+            legend: {
+                labels: {
+                    fontColor: 'white' // Définir la couleur du texte de la légende
+                }
             }
-        });
+        }
     });
+
+  const times = [];
+  const values = [];
+  var capteur;
+  const eventSource = new EventSource(`http://${host}:34/get_data`);
+  var compt= 0
+  eventSource.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+
+    // Traiter les données reçues
+    const date = new Date(data.time);
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    const formattedDate = `${hours}:${minutes}:${seconds}`;
+
+    // Traiter les données reçues
+    times.push(formattedDate);    values.push(data.value);
+    console.log(data.entity)
+    capteur = data.entity;
+    compt++;
+    // Mettre à jour le graphique après avoir reçu des données
+    updateChart();
+    if (times.length >= data.nbvaleur) {
+      eventSource.close();
+    }
+  };
+  
+  // Fonction pour mettre à jour le graphique avec les nouvelles données
+  function updateChart() {
+    barChartTemperature.data.datasets[0].label = capteur ;
+    barChartTemperature.data.labels = times;
+    barChartTemperature.data.datasets[0].data = values;
+    barChartTemperature.update();
+ // Mettre à jour le graphique sans le recréer
+  }
+    const barChartCO2 = new Chart($('.CO2'), {
+      type: 'bar',
+      data: {
+        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 205, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(201, 203, 207, 0.7)'
+          ]
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+    const barChartLuminosité = new Chart($('.Luminosité'), {
+      type: 'bar',
+      data: {
+        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+          ]
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+
+    const barChartBruit = new Chart($('.Bruit'), {
+      type: 'line',
+      data: {
+        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              color: 'white' // Définir la couleur du texte de l'axe des x
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white' // Définir la couleur du texte de l'axe des x
+            }
+          }
+        }
+      }
+    });
+  });
 
 
 
