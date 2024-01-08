@@ -2,56 +2,74 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Graph</title>
-  <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
 
-  {% include 'link.html' %}
+    {% include 'link.html' %}
 
 
 </head>
 
 <body class="bg-gray-900">
 
-  {% include 'navbar.html' %}
-  <div id="particles-js" style="height: 93vh" class="">
+    {% include 'navbar.html' %}
+    <div id="particles-js" style="height: 93vh" class="">
 
-          <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
-
-
-              <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
-                  <span class="input-group-text" id="addon-wrapping"><i class="bi bi-building"></i></span>
-                  <select class="form-select" name="" id="">
-                      <option value="D250">D250</option>
-                      <option value="D251">D251</option>
-                      <option value="D252">D252</option>
+        <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
 
 
-                  </select>
-              </div>
-
-          </div>
-          <div id="container" class="bg-gray-800 rounded absolute top-40 right-56" style="height: fit-content; width: fit-content;">
-              <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
-          </div>
-          <div id="container" class="bg-gray-800 rounded absolute bottom-28 right-56" style="height: fit-content; width: fit-content;">
-              <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
-          </div>
-          <div id="container" class="bg-gray-800 rounded absolute top-40 left-56" style="height: fit-content; width: fit-content;">
-              <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
-          </div>
-          <div id="container" class="bg-gray-800 rounded absolute bottom-28 left-56" style="height: fit-content; width: fit-content;">
-              <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
-          </div>
+            <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
+                <span class="input-group-text" id="addon-wrapping"><i class="bi bi-building"></i></span>
+                <select class="form-select" name="" id="salle">
+                    <option value="D250">D250</option>
+                    <option value="D251">D251</option>
+                    <option value="D252">D252</option>
 
 
+                </select>
+            </div>
 
-      </div>
-  </div>
+        </div>
+        <div id="container" class="bg-gray-800 rounded absolute top-32 left-40"
+            style="height: fit-content; width: fit-content;">
+            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
+
+            <canvas id="" class="p-5 temperature" style="height: 35vh; width: 40vw;"></canvas>
+        </div>
+
+        <div id="container" class="bg-gray-800 rounded absolute top-32 right-40"
+            style="height: fit-content; width: fit-content;">
+            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
+            <canvas id="" class="p-5 CO2" style="height: 35vh; width: 40vw;"></canvas>
+        </div>
+
+        <div id="container" class="bg-gray-800 rounded absolute bottom-8 left-40"
+            style="height: fit-content; width: fit-content;">
+            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lux)</h1>
+
+            <canvas id="" class="p-5 Luminosité" style="height: 35vh; width: 40vw;"></canvas>
+        </div>
+
+        <div id="container" class="bg-gray-800 rounded absolute bottom-8 right-40"
+            style="height: fit-content; width: fit-content;">
+            <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
+
+            <canvas id="" class="p-5 Bruit" style="height: 35vh; width: 40vw;"></canvas>
+        </div>
 
 
-  {% include 'link_js.html' %}
+
+
+
+
+
+    </div>
+    </div>
+
+
+    {% include 'link_js.html' %}
 
 
 
@@ -63,35 +81,131 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  $(document).ready(function() {
-      $('.barCanvas').each(function(index, element) {
-          const barChart = new Chart(element, {
-              type: 'bar',
-              data: {
-                  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                  datasets: [{
-                      label: '# of Votes',
-                      data: [12, 19, 3, 5, 2, 3],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          ticks: {
-                              color: 'white' // Définir la couleur du texte de l'axe des x
-                          }
-                      },
-                      x: {
-                          ticks: {
-                              color: 'white' // Définir la couleur du texte de l'axe des x
-                          }
-                      }
-                  }
-              }
-          });
-      });
-  });
+    $(document).ready(function () {
+        $('#salle').change(() => { location.reload(); })
+        const barChartTemperature = new Chart($('.temperature'), {
+            type: 'line',
+            data: {
+                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            color: 'white' // Définir la couleur du texte de l'axe des x
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white' // Définir la couleur du texte de l'axe des x
+                        }
+                    }
+                }
+            }
+        });
+        const barChartCO2 = new Chart($('.CO2'), {
+            type: 'bar',
+            data: {
+                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+        const barChartLuminosité = new Chart($('.Luminosité'), {
+            type: 'bar',
+            data: {
+                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        const barChartBruit = new Chart($('.Bruit'), {
+            type: 'line',
+            data: {
+                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            color: 'white' // Définir la couleur du texte de l'axe des x
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white' // Définir la couleur du texte de l'axe des x
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+
+
 </script>
 
 </html>
