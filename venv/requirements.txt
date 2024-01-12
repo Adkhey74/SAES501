@@ -1,0 +1,8 @@
+Flask
+numpy
+tqdm
+scikit-learn
+influxdb-client
+matplotlib
+pandas
+tensorflow
