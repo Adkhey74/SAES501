@@ -15,59 +15,72 @@
 <body class="bg-gray-900">
 
   {% include 'navbar.html' %}
-  <div id="particles-js" style="height: 93vh" class="">
-
-    <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
+  <div id="particles-js" style="height: 185vh;width: 100vw;z-index: -50; position: fixed; top: 0;">
 
 
-      <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
+  </div>
+
+    <div class="justify-end flex mb-2">
+      <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
         <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
             class="bi bi-building"></i></span>
         <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
           <option value="D251">D251</option>
           <option value="D351">D351</option>
           <option value="D360">D360</option>
-
-
-
+  
+  
+  
         </select>
       </div>
-
-    </div>
-    <div id="container" class="bg-gray-800 rounded absolute top-32 left-40"
-      style="height: fit-content; width: fit-content;">
-      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
-
-      <canvas id="" class="p-5 temperature" style="height: 35vh; width: 40vw;"></canvas>
     </div>
 
-    <div id="container" class="bg-gray-800 rounded absolute top-32 right-40"
-      style="height: fit-content; width: fit-content;">
-      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-      <canvas id="" class="p-5 CO2" style="height: 35vh; width: 40vw;"></canvas>
+  <div class="flex justify-center  align-items-start   " >
+
+    <div class="grid grid-cols-2 gap-14 pr-5" style="height: 87vh; overflow: auto;">
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
+
+        <canvas id="" class="p-5 temperature" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
+        <canvas id="" class="p-5 CO2" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container" class="bg-gray-800 rounded 0" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
+
+        <canvas id="" class="p-5 Luminosité" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
+
+        <canvas id="" class="p-5 Bruit" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
+      <div id="container_humidite" class="bg-gray-800 " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
+
+        <canvas id="" class="p-5 humidite" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
+      <div id="container_UV" class="bg-gray-800 " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
+
+        <canvas id="" class="p-5 UV" style="height: 35vh; width: 40vw;"></canvas>
+      </div>
     </div>
-
-    <div id="container" class="bg-gray-800 rounded absolute bottom-8 left-40"
-      style="height: fit-content; width: fit-content;">
-      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lux)</h1>
-
-      <canvas id="" class="p-5 Luminosité" style="height: 35vh; width: 40vw;"></canvas>
-    </div>
-
-    <div id="container" class="bg-gray-800 rounded absolute bottom-8 right-40"
-      style="height: fit-content; width: fit-content;">
-      <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
-
-      <canvas id="" class="p-5 Bruit" style="height: 35vh; width: 40vw;"></canvas>
-    </div>
-
-
-
-
-
-
-
   </div>
+
+
+
+
+
+
+
+
   </div>
 
 
@@ -83,97 +96,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  var host = window.location.hostname;
+  document.addEventListener("DOMContentLoaded", function () {
+    var host = window.location.hostname;
 
-  // Initialiser le graphique une seule fois
-  const barChartTemperature = new Chart($('.temperature'), {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                data: [],
-                borderWidth: 2,
-                borderColor:'white',
-                backgroundColor: 'whit7'
-
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    ticks: {
-                        color: 'white'
-                    }
-                },
-                x: {
-                    ticks: {
-                        color: 'white'
-                    }
-                }
-            },
-            legend: {
-                labels: {
-                    fontColor: 'white' // Définir la couleur du texte de la légende
-                }
-            }
-        }
-    });
-
-  const times = [];
-  const values = [];
-  var capteur;
-  const eventSource = new EventSource(`http://${host}:34/get_data`);
-  var compt= 0
-  eventSource.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-
-    // Traiter les données reçues
-    const date = new Date(data.time);
-
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-
-    const formattedDate = `${hours}:${minutes}:${seconds}`;
-
-    // Traiter les données reçues
-    times.push(formattedDate);    values.push(data.value);
-    console.log(data.entity)
-    capteur = data.entity;
-    compt++;
-    // Mettre à jour le graphique après avoir reçu des données
-    updateChart();
-    if (times.length >= data.nbvaleur) {
-      eventSource.close();
-    }
-  };
-  
-  // Fonction pour mettre à jour le graphique avec les nouvelles données
-  function updateChart() {
-    barChartTemperature.data.datasets[0].label = capteur ;
-    barChartTemperature.data.labels = times;
-    barChartTemperature.data.datasets[0].data = values;
-    barChartTemperature.update();
- // Mettre à jour le graphique sans le recréer
-  }
-    const barChartCO2 = new Chart($('.CO2'), {
-      type: 'bar',
+    // Initialiser le graphique une seule fois
+    const barChartTemperature = new Chart($('.temperature'), {
+      type: 'line',
       data: {
-        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        labels: [],
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.7)',
-            'rgba(255, 159, 64, 0.7)',
-            'rgba(255, 205, 86, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(153, 102, 255, 0.7)',
-            'rgba(201, 203, 207, 0.7)'
-          ]
+          data: [],
+          borderWidth: 2,
+          borderColor: 'rgb(173, 216, 230)',
+          backgroundColor: 'rgb(173, 216, 230)'
+
         }]
       },
       options: {
@@ -187,27 +123,64 @@ document.addEventListener("DOMContentLoaded", function () {
             ticks: {
               color: 'white'
             }
+          }
+        },
+        legend: {
+          labels: {
+            fontColor: 'white' // Définir la couleur du texte de la légende
+          }
+        }
+      }
+    });
+    const barChartCO2 = new Chart($('.CO2'), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          borderWidth: 1,
+          borderColor: 'rgb(255, 255, 240)',
+          backgroundColor: 'rgb(255, 255, 200)',
+          point: {
+            radius: 0, // Définissez le rayon des points à 0 pour les masquer
+            pointStyle: false // Désactivez l'affichage des points
+          },
+          tension: 0.4, // Ajustez la valeur de tension selon vos préférences
+          cubicInterpolationMode: 'monotone', // Utilisez la méthode de l'interpolation cubique monotone pour une courbe plus lisse
+          fill: false, // Désactivez le remplissage de la zone sous la courbe pour une meilleure visibilité
+          sampling: 'average' // Utilisez 'average' pour réduire le nombre de points tout en maintenant la moyenne
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        },
+        legend: {
+          labels: {
+            fontColor: 'white'
           }
         }
       }
     });
     const barChartLuminosité = new Chart($('.Luminosité'), {
-      type: 'bar',
+      type: 'line',
       data: {
-        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        labels: [],
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-          ]
+          data: [],
+          borderWidth: 2,
+          borderColor: 'rgb(255, 182, 193)',
+          backgroundColor: 'rgb(255, 182, 193)'
+
         }]
       },
       options: {
@@ -221,36 +194,270 @@ document.addEventListener("DOMContentLoaded", function () {
             ticks: {
               color: 'white'
             }
+          }
+        },
+        legend: {
+          labels: {
+            fontColor: 'white' // Définir la couleur du texte de la légende
           }
         }
       }
     });
 
-    const barChartBruit = new Chart($('.Bruit'), {
-      type: 'line',
-      data: {
-        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            ticks: {
-              color: 'white' // Définir la couleur du texte de l'axe des x
+    const barChartBruit = new Chart($('.Bruit')
+      , {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            borderWidth: 2,
+            borderColor: 'rgb(144, 238, 144)',
+            backgroundColor: 'rgb(144, 238, 144)'
+
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              ticks: {
+                color: 'white'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'white'
+              }
             }
           },
-          x: {
-            ticks: {
-              color: 'white' // Définir la couleur du texte de l'axe des x
+          legend: {
+            labels: {
+              fontColor: 'white' // Définir la couleur du texte de la légende
             }
           }
         }
+      });
+
+      const barChartHumidite = new Chart($('.humidite')
+      , {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            borderWidth: 2,
+            borderColor: 'white',
+            backgroundColor: 'white'
+
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              ticks: {
+                color: 'white'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'white'
+              }
+            }
+          },
+          legend: {
+            labels: {
+              fontColor: 'white' // Définir la couleur du texte de la légende
+            }
+          }
+        }
+        
+      });
+      
+
+      const barChartUV = new Chart($('.UV')
+      , {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            borderWidth: 2,
+            borderColor: 'purple',
+            backgroundColor: 'purple'
+
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              ticks: {
+                color: 'white'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'white'
+              }
+            }
+          },
+          legend: {
+            labels: {
+              fontColor: 'white' // Définir la couleur du texte de la légende
+            }
+          }
+        }
+        
+      });
+      
+
+    const eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature`);
+    const eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2`);
+    const eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite`);
+    const eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite`);
+
+
+
+
+    $('#container_bruit').hide();
+    $('#container_UV').hide();
+
+    add_Data_toGraph(eventSourceD251, barChartTemperature)
+    add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+    add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+
+
+
+
+
+    $('#salle').change(() => {
+      if ($('#salle').val() == 'D251') {
+        const eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature`);
+        const eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2`);
+        const eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite`);
+        const eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite`);
+        $('#container_bruit').hide();
+        $('#container_UV').hide();
+
+
+
+        add_Data_toGraph(eventSourceD251, barChartTemperature)
+        add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+        add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+
+
+
       }
-    });
+      if ($('#salle').val() == 'D351') {
+        const eventSourceD351 = new EventSource(`http://${host}:34/get_data/d351/temperature`);
+        const eventSource_D351_CO2 = new EventSource(`http://${host}:34/get_data/d351/CO2`);
+        const eventSource_D351_Lx = new EventSource(`http://${host}:34/get_data/d351/luminosite`);
+        const eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit`);
+        const eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite`);
+        const eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV`);
+
+
+
+        $('#container_bruit').show();
+        $('#container_UV').show();
+
+
+        add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
+
+        add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
+        add_Data_toGraph(eventSourceD351, barChartTemperature)
+        add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
+        add_Data_toGraph(eventSource_D351_db, barChartBruit)
+        add_Data_toGraph(eventSource_D351_UV, barChartUV)
+
+
+
+
+
+      }
+      if ($('#salle').val() == 'D360') {
+
+        const eventSourceD360 = new EventSource(`http://${host}:34/get_data/d360/temperature`);
+        const eventSource_D360_CO2 = new EventSource(`http://${host}:34/get_data/d360/CO2`);
+        const eventSource_D360_Lx = new EventSource(`http://${host}:34/get_data/d360/luminosite`);
+        const eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite`);
+
+
+
+
+
+        $('#container_bruit').hide();
+        $('#container_UV').hide();
+
+
+        add_Data_toGraph(eventSourceD360, barChartCO2)
+        add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
+        add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
+        add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
+
+
+
+
+      }
+    })
+
+    function add_Data_toGraph(eventSource, barChart,) {
+      var compt = 0
+
+      eventSource.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+
+
+
+        // Traiter les données reçues
+        console.log(data)
+
+        console.log(data[0])
+        values = data.map(item => item.value);
+        times = data.map(item => formatTime(item.time));
+        capteur = data[0].entity;
+
+
+        console.log(values)
+        console.log(times)
+        console.log(capteur)
+
+
+
+
+        compt++;
+        // Mettre à jour le graphique après avoir reçu des données
+        updateChart(barChart);
+        if (compt == 1) {
+          eventSource.close();
+        }
+      };
+    }
+
+
+
+    function formatTime(dateString) {
+      const date = new Date(dateString);
+      const hours = date.getUTCHours();
+      const minutes = date.getUTCMinutes();
+      const seconds = date.getUTCSeconds();
+
+      // Formater en HH:mm:ss
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return formattedTime;
+    }
+    // Fonction pour mettre à jour le graphique avec les nouvelles données
+    function updateChart(barChart) {
+      barChart.data.datasets[0].label = capteur;
+      barChart.data.labels = times;
+      barChart.data.datasets[0].data = values;
+      barChart.update();
+      // Mettre à jour le graphique sans le recréer
+    }
+
+
+
   });
 
 

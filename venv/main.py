@@ -25,23 +25,51 @@ def graph():
 
 
 
-@app.route('/get_data')
-def get_data():
+@app.route('/get_data/<salle>/<unite>')
+def get_data(salle, unite):
     # Create a client
     client = InfluxDBClient(url=url, token=token, org=org, timeout=20000)
     # Create a query
 # Create a query
-    # query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "°C")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_air_temperature")|> aggregateWindow(every: 1h, fn: mean, createEmpty: false)|> yield(name: "mean")'
-    query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "ppm")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_carbon_dioxide_co2_level")|> difference(nonNegative: true, columns: ["_value"], keepFirst: false)|> filter(fn: (r) => r._value >= 50)|> yield(name: "mean")'
-    
+    if unite.lower() == "co2":
+        entity_id = f"{salle}_1_co2_carbon_dioxide_co2_level"
+        measurement = 'ppm'
+        temps ='-12h'
+    elif unite.lower() == "temperature":
+        entity_id = f"{salle}_1_co2_air_temperature"
+        measurement = '°C'
+        temps ='-12h'
 
+    elif unite.lower() == "luminosite":
+        if salle == 'd360':
+            entity_id = f"{salle}_1_multisensor_illuminance_2"
+        else:
+            entity_id = f"{salle}_1_multisensor_illuminance"
+        measurement = 'lx'
+        temps ='-2d'
+    elif unite.lower() == "bruit":
+        entity_id = f"{salle}_1_multisensor9_loudness"
+        measurement = 'dBA'
+        temps ='-2h'
+    elif unite.lower() == "humidite":
+        entity_id = f"{salle}_1_co2_humidity"
+        measurement = '%'
+        temps ='-2d'
+    elif unite.lower() == "uv":
+        entity_id = f"{salle}_1_multisensor_ultraviolet"
+        measurement = 'UV index'
+        temps ='-2d'
+
+    # query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "°C")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_air_temperature")|> aggregateWindow(every: 1h, fn: mean, createEmpty: false)|> yield(name: "mean")'
+    query = f'from(bucket: "IUT_BUCKET")|> range(start:{temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
+    print(query)
 
 
     # Get the Query API
     query_api = client.query_api()
 
     # Execute the query
-    result = query_api.query(org=org, query=query)
+    result = query_api.query(org=org, query=query   )
 
     # Process the results
     # for table in result:
@@ -54,7 +82,6 @@ def get_data():
     # Rassembler tous les enregistrements de toutes les tables
     for table in result:
         for record in table.records:
-            if record.get_measurement() == "°C":
                 res.append({
                     'time': record.get_time(),
                     'value': record.get_value(),
@@ -63,16 +90,7 @@ def get_data():
                     'nbvaleur': len(table.records)
 
                 })
-            elif record.get_measurement() == "ppm":
-                res.append({
-                    'time': record.get_time(),
-                    'value': record.get_value(),
-                    'measurement': record.get_measurement(),
-                    'entity':  record['entity_id'],
-                    'nbvaleur': len(table.records)
 
-
-                })
 
 
     res.sort(key=lambda record: record['time'])
@@ -80,8 +98,9 @@ def get_data():
     return Response(generate(res),content_type='text/event-stream')
 
 def generate(res):
-    for record in res:
-        yield f"data: {json.dumps(record)}\n\n"
+    print(res)
+    yield f"data: {json.dumps(res)}\n\n"
+
 @app.route('/tableau.html')
 def tableau():
     # Votre logique de traitement peut être ajoutée ici

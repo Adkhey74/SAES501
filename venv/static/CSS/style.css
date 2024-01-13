@@ -3,8 +3,29 @@
     transform: translateY(20px);
     transition: opacity 1.5s, transform 1.5s;
 }
-
+*{font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
 .fade-in.is-visible {
     opacity: 1;
     transform: translateY(0);
+}
+::-webkit-scrollbar {
+    background-color: #555;
+    border-radius: 6px;
+
+    width: 3px;
+    /* Largeur de la barre de défilement */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Couleur du curseur de défilement */
+    border-radius: 6px;
+    /* Rayon des coins du curseur de défilement */
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar:horizontal {
+    display: none;
 }

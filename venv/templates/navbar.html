@@ -1,7 +1,8 @@
 
 
 
-<nav class="navbar  bg-white h-fit   border-bottom border-body" data-bs-theme="dark" style="height: 6vh; width: 100%;">
+<nav class="navbar  bg-white h-fit   border-bottom border-body" data-bs-theme="dark" style="height: 6vh; width: 100%; "
+">
   <ul class="nav nav-pills   align-items-sm-center " id="menu">
 
     <li class="nav-item absolute top-0   ml-4 ">
@@ -12,17 +13,17 @@
   <ul class="nav nav-pills mb-sm-auto align-items-center mt-2 align-items-sm-center  mx-2" id="menu">
     <li class="nav-item  ">
       <a href="{{url_for('home')}}"
-      class="text-sm	  font-bold leading-6 text-gray-900  {% if active_page == 'Home' %}underline underline-offset-8{% endif %}"><i
+      class="text-lg	  font-bold leading-6 text-gray-900  {% if active_page == 'Home' %}underline underline-offset-8{% endif %}"><i
         class="bi bi-house-fill"></i> Home</a>
     </li>
     <li class="nav-item  ml-7">
       <a href=""
-      class="text-sm	 font-bold leading-6 text-gray-900  {% if active_page == 'Configuration' %}underline underline-offset-8{% endif %}"><i class="bi bi-gear-wide-connected"></i>
+      class="text-lg	 font-bold leading-6 text-gray-900  {% if active_page == 'Configuration' %}underline underline-offset-8{% endif %}"><i class="bi bi-gear-wide-connected"></i>
        Configuration</a>
     </li>
     <li class="nav-item  ml-7">
       <a href="{{url_for('graph')}}"
-      class="text-sm	m-0 font-bold leading-6 text-gray-900  {% if active_page == 'Graph' %}underline underline-offset-8{% endif %}"><i
+      class="text-lg	m-0 font-bold leading-6 text-gray-900  {% if active_page == 'Graph' %}underline underline-offset-8{% endif %}"><i
         class="bi bi-graph-up"></i> Dashboard</a>
     </li>
     <!-- <li class="nav-item  ml-7">
@@ -32,7 +33,7 @@
     </li> -->
     <li class="nav-item  ml-7">
       <a href="{{url_for('detection')}}"
-      class="text-sm	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Detection' %}underline underline underline-offset-8{% endif %}"><i
+      class="text-lg	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Detection' %}underline underline underline-offset-8{% endif %}"><i
         class="bi bi-thermometer-half"></i> Prediction</a>
     </li>
 
