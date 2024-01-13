@@ -1,6 +1,6 @@
 from flask import Flask,render_template,send_file,Response,json,jsonify
 from influxdb_client import InfluxDBClient
-import threading
+from ia.prediction_temp import predict
 # Récupération des données
 url = "http://51.83.36.122:8086"
 token = "q4jqYhdgRHuhGwldILZ2Ek1WzGPhyctQ3UgvOII-bcjEkxqqrIIacgePte33CEjekqsymMqWlXnO0ndRhLx19g=="
@@ -8,10 +8,26 @@ org = "INFO"
 bucket = "IUT_BUCKET"
 app = Flask(__name__)
 
+# Permet de régler les problèmes de print
+import builtins
+
+original_print = builtins.print
+
+def print(*args, **kwargs):
+    kwargs.setdefault('flush', True)
+    original_print(*args, **kwargs)
+
+builtins.print = print
+
+
 @app.route('/')
 def home():
     # Votre logique de traitement peut être ajoutée ici
     # Par exemple, rendre un modèle avec render_template
+
+    # Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
+    pred = predict(key="ppm")
+    
     return render_template('home.html',active_page='Home')
 
 @app.route('/graph.html')
@@ -113,5 +129,5 @@ def configuration():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=34)
+    app.run(debug=True, port=34, host='0.0.0.0')
 
