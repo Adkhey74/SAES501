@@ -1,7 +1,7 @@
 from flask import Flask,render_template,send_file,Response,json,jsonify
 from influxdb_client import InfluxDBClient
 from ia.prediction_temp import predict
-from inconfort.inconfort import ppm_is_discomfort,dba_is_discomfort,window_open,movement_here,presence_d351
+from inconfort.inconfort import ppm_is_discomfort,dba_is_discomfort,window_close,movement_here,presence_d351
 # Récupération des données
 url = "http://51.83.36.122:8086"
 token = "q4jqYhdgRHuhGwldILZ2Ek1WzGPhyctQ3UgvOII-bcjEkxqqrIIacgePte33CEjekqsymMqWlXnO0ndRhLx19g=="
@@ -53,14 +53,14 @@ def get_comfort(room):
     comfortPpm = ppm_is_discomfort(client,org,bucket,room)
     comfortDba = dba_is_discomfort(client,org,bucket,room)
     comfortHere = movement_here(client,org,bucket,room)
-    comfortwindow = window_open(client,org,bucket,room,last_data)
+    comfortwindow = window_close(client,org,bucket,room,last_data)
     
     presenceD351 = 0
     if room == "d351":
         presenceD351 = presence_d351(client,org,bucket)
 
-    if comfortwindow == 1:
-        last_data_by_room[room] = 1
+    if comfortwindow >= 0:
+        last_data_by_room[room] = comfortwindow
 
     return jsonify(comfortPpm=comfortPpm,comfortDba=comfortDba,
                    comfortHere=comfortHere,comfortwindow=comfortwindow,presenceD351=presenceD351)
