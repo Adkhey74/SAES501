@@ -36,7 +36,7 @@
                 <span class="text-wrapper text-white">
                     <span class="line line1"></span>
                     <h1 class="text-white letters" style="font-size: 150px;">SAES501</h1>
-                    <h3 class="text-gray-600" style="font-size: 20px;"> Dev by Samuel, Dimitri, Alain, Enzo, Adil</h3>
+                    <h3 class="text-gray-600 letters" style="font-size: 20px;"> Dev by Samuel, Dimitri, Alain, Enzo, Adil</h3>
 
 
                 </span>
@@ -62,9 +62,14 @@
 
   </body>
 <script>
-  var textWrapper = document.querySelector('.ml11 .letters');
+// Sélectionnez tous les éléments correspondant à '.ml11 .letters' et convertissez-les en tableau
+var textWrappers = Array.from(document.querySelectorAll('.ml11 .letters'));
 
-textWrapper.innerHTML = textWrapper.textContent.replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>");
+// Appliquez la modification à tous les éléments en même temps
+textWrappers.forEach(function(textWrapper) {
+  // Modifiez le contenu HTML de chaque élément
+  textWrapper.innerHTML = textWrapper.textContent.replace(/([^\x00-\x80]|\w|,)/g, "<span class='letter'>$&</span>");
+});
 
 anime.timeline({ loop: false })
   .add({
