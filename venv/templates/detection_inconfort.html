@@ -13,7 +13,11 @@
 </head>
 
 <body class="bg-gray-900 ">
-
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
   {% include 'navbar.html' %}
   <div id="particles-js" style="height: 185vh;width: 100vw;z-index: -50; position: fixed; top: 0;">
 
@@ -41,12 +45,15 @@
 
   </div>
   <div class="flex justify-center mb-4 mt-4 fade-in">
-    <div class=" text-red-500 ml-5 mt-2 text-2xl" >
-      <i class="bi bi-x-circle-fill"></i> Inconfort      
-    </div>
     <div class=" text-green-500 ml-5 mt-2 text-2xl" >
       <i class="bi bi-check-circle-fill"></i>
       Confort      
+    </div>
+    <div class=" text-orange-500 ml-5 mt-2 text-2xl" >
+      <i class="bi bi-x-circle-fill"></i> Inconfort      
+    </div>
+    <div class=" text-red-500 ml-5 mt-2 text-2xl" >
+      <i class="bi bi-x-circle-fill"></i> Danger      
     </div>
   </div>
 
@@ -57,17 +64,17 @@
       <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">Détéction fenêtre ouverte</h1>
 
-        <div class="flex justify-center  text-green-500 items-center"
+        <div class="flex justify-center  items-center"
           style="width: 25vw; height: 20vh; font-size: 100px;">
-          <i class="bi bi-check-circle-fill"></i>
+          <i class="bi bi-check-circle-fill text-green-500" id="fenetreIcon"></i>
         </div>
       </div>
 
       <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">CO2 </h1>
-        <div class="flex justify-center  text-red-500 items-center"
+        <div class="flex justify-center   items-center"
           style="width: 25vw; height: 20vh; font-size: 100px;">
-          <i class="bi bi-x-circle-fill"></i>
+          <i class="bi bi-check-circle-fill text-green-500" id="Co2Icon"></i>
         </div>
       </div>
 
@@ -75,25 +82,25 @@
       <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">Bruit</h1>
 
-        <div class="flex justify-center  text-red-500 items-center"
+        <div class="flex justify-center   items-center"
           style="width: 25vw; height: 20vh; font-size: 100px;">
-          <i class="bi bi-x-circle-fill"></i>
+          <i class="bi bi-check-circle-fill text-green-500" id="bruitIcon"></i>
         </div>
       </div>
       <div id="container_humidite" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">Mouvement</h1>
 
-        <div class="flex justify-center  text-green-500 items-center"
+        <div class="flex justify-center   items-center"
           style="width: 25vw; height: 20vh; font-size: 100px;">
-          <i class="bi bi-check-circle-fill"></i>
+          <i class="bi bi-check-circle-fill text-green-500" id="mouvementIcon"></i>
         </div>
       </div>
-      <div id="container_UV" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
-        <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">Ultras Violet (UV)</h1>
+      <div id="presenceD351"  class="bg-gray-800 rounded hidden" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 25vw;">Presence salle des personnels</h1>
 
-        <div class="flex justify-center  text-green-500 items-center"
+        <div class="flex justify-center   items-center"
           style="width: 25vw; height: 20vh; font-size: 100px;">
-          <i class="bi bi-check-circle-fill"></i>
+          <i class="bi bi-check-circle-fill text-green-500" id="presenceIcon"></i>
         </div>
       </div>
     </div>
@@ -113,6 +120,73 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+  <script>
+    const icons = ["bi bi-check-circle-fill text-green-500","bi bi-x-circle-fill text-orange-500"
+            ,"bi bi-x-circle-fill text-red-500"]
+    function updateComfort() {
+      axios.get('/get_data/'+$('#salle').val(), { params: { "t": new Date().getTime() } })
+          .then(response => {
+              const data = response.data;
+              let comfortPpm = data.comfortPpm;
+              let comfortDba = data.comfortDba;
+              let movementHere = data.comfortHere;
+              let comfortwindow = data.comfortwindow;
+              let presenceD351 = data.presenceD351;
+              let Co2Icon =  document.getElementById('Co2Icon');
+              let bruitIcon =  document.getElementById('bruitIcon');
+              let mouvementIcon =  document.getElementById('mouvementIcon');
+              let fenetreIcon =  document.getElementById('fenetreIcon');
+              let presenceIcon =  document.getElementById('presenceIcon');
+              let divPresenceD351 = document.getElementById('presenceD351');
+
+              if (comfortPpm >= 0) {
+                Co2Icon.className = '';
+                Co2Icon.className = icons[comfortPpm];
+              }
+
+              if (comfortDba >= 0) {
+                bruitIcon.className = '';
+                bruitIcon.className = icons[comfortDba];
+              }
+
+              if (movementHere >= 0) {
+                mouvementIcon.className = '';
+                mouvementIcon.className = icons[movementHere];
+              }
+
+              if (comfortwindow >= 0) {
+                fenetreIcon.className = '';
+                fenetreIcon.className = icons[comfortwindow];
+              }
+
+              if ($('#salle').val() == "D351") {
+                divPresenceD351.classList.remove("hidden");
+                if (presenceD351 >= 0) {
+                  presenceIcon.className = '';
+                  presenceIcon.className = icons[presenceD351];
+                }
+              } else {
+                divPresenceD351.classList.add("hidden");
+              }
+              
+          })
+          .catch(error => {
+              console.error('There was an error!', error);
+          });
+    }
+    updateComfort()
+
+    $('#salle').change(() => {
+      updateComfort()
+
+    })
+
+    setInterval(updateComfort, 300000);
+    
+
+    // setInterval(updateComfort, 300);
+  </script>
 
 
 </html>

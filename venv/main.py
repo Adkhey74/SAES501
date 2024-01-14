@@ -1,12 +1,16 @@
 from flask import Flask,render_template,send_file,Response,json,jsonify
 from influxdb_client import InfluxDBClient
 from ia.prediction_temp import predict
+from inconfort.inconfort import ppm_is_discomfort,dba_is_discomfort,window_open,movement_here,presence_d351
 # Récupération des données
 url = "http://51.83.36.122:8086"
 token = "q4jqYhdgRHuhGwldILZ2Ek1WzGPhyctQ3UgvOII-bcjEkxqqrIIacgePte33CEjekqsymMqWlXnO0ndRhLx19g=="
 org = "INFO"
 bucket = "IUT_BUCKET"
+
 app = Flask(__name__)
+
+
 
 # Permet de régler les problèmes de print
 import builtins
@@ -38,7 +42,28 @@ def graph():
     # Par exemple, rendre un modèle avec render_template
     return render_template('graph.html', active_page='Graph')
 
+last_data_by_room = {"d251":0,"d351":0,"d360":0}
+client = InfluxDBClient(url=url, token=token, org=org, timeout=20000)
+@app.route('/get_data/<room>')
+def get_comfort(room):
+    global client
+    global last_data_by_room
+    room = room.lower()
+    last_data = last_data_by_room[room]
+    comfortPpm = ppm_is_discomfort(client,org,bucket,room)
+    comfortDba = dba_is_discomfort(client,org,bucket,room)
+    comfortHere = movement_here(client,org,bucket,room)
+    comfortwindow = window_open(client,org,bucket,room,last_data)
+    
+    presenceD351 = 0
+    if room == "d351":
+        presenceD351 = presence_d351(client,org,bucket)
 
+    if comfortwindow == 1:
+        last_data_by_room[room] = 1
+
+    return jsonify(comfortPpm=comfortPpm,comfortDba=comfortDba,
+                   comfortHere=comfortHere,comfortwindow=comfortwindow,presenceD351=presenceD351)
 
 
 @app.route('/get_data/<salle>/<unite>/<temps>')
