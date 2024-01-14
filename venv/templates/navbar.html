@@ -2,33 +2,33 @@
 
 
 <div class="fixed top-2 left-2">
-  <button id="btn-1"  class="btn-menu text-white text-6xl"><i class="bi bi-list"></i></button>
+  <button id="btn-1"  class="btn-menu text-gray-700 text-6xl"><i class="bi bi-list"></i></button>
 </div>
-<div id="menu" class="navbar  test2 bg-white w-fit fixed top-0 items-start p-2  z-50 border-bottom border-body" data-bs-theme="dark" style="height: 100vh; width: 15vw;left: -300px; ">
-    <ul class="grid grid-cols-1 gap-8 top-14" id="menu"> 
+<div id="menu" class="navbar  test2 bg-black/40 backdrop-blur-sm   w-fit fixed top-0 items-start  p-2 z-50 border-bottom border-body" data-bs-theme="dark" style="height: 100vh; width: 15vw;left: -300px; ">
+    <ul class="grid grid-cols-1 gap-8 top-32" id="menu"> 
       <ul class="   " >
   
         <li class="nav-item  ">
 
-          <button class=" btn-menu text-black text-6xl"><i class="bi bi-list"></i></button>
+          <button class=" btn-menu text-gray-400 text-6xl"><i class="bi bi-list"></i></button>
 
         </li>
     
       </ul>
       <li class="nav-item  ">
         <a href="{{url_for('home')}}"
-        class="text-2xl	  font-bold leading-6 text-gray-900 p-2 {% if active_page == 'Home' %}bg-gray-900 text-white rounded {% endif %}"><i
+        class="text-2xl	  font-bold leading-6  p-2 {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-500 {% endif %}"><i
           class="bi bi-house-fill"></i> Home</a>
       </li>
    
-      <li class="nav-item ">
+      <li class="nav-item {% if active_page == 'Detection' %} {% endif %}" style="width: 15vw; ">
         <a href="{{url_for('detection')}}"
-        class="text-2xl	 m-0 font-bold leading-6 text-gray-900 p-2 {% if active_page == 'Detection' %}bg-gray-900 text-white rounded {% endif %}"><i
+        class="text-2xl	 m-0 font-bold leading-6  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-500 {% endif %}"><i
           class="bi bi-thermometer-half"></i> Détéction inconfort</a>
       </li>
       <li class="nav-item ">
         <a href="{{url_for('graph')}}"
-        class="text-2xl	m-0 font-bold leading-6 text-gray-900 p-2 {% if active_page == 'Graph' %}bg-gray-900 text-white rounded {% endif %}"><i
+        class="text-2xl	m-0 font-bold leading-6  p-2 {% if active_page == 'Graph' %}text-white rounded {% else %} text-gray-500 {% endif %}"><i
           class="bi bi-graph-up"></i> Dashboard</a>
       </li>
   
