@@ -16,16 +16,12 @@
       class="text-lg	  font-bold leading-6 text-gray-900  {% if active_page == 'Home' %}underline underline-offset-8{% endif %}"><i
         class="bi bi-house-fill"></i> Home</a>
     </li>
-    <li class="nav-item  ml-7">
+    <!-- <li class="nav-item  ml-7">
       <a href=""
       class="text-lg	 font-bold leading-6 text-gray-900  {% if active_page == 'Configuration' %}underline underline-offset-8{% endif %}"><i class="bi bi-gear-wide-connected"></i>
        Configuration</a>
-    </li>
-    <li class="nav-item  ml-7">
-      <a href="{{url_for('graph')}}"
-      class="text-lg	m-0 font-bold leading-6 text-gray-900  {% if active_page == 'Graph' %}underline underline-offset-8{% endif %}"><i
-        class="bi bi-graph-up"></i> Dashboard</a>
-    </li>
+    </li> -->
+
     <!-- <li class="nav-item  ml-7">
       <a href="{{url_for('tableau')}}"
       class="text-base	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Tableau' %}underline underline underline-offset-8{% endif %}"><i
@@ -34,9 +30,13 @@
     <li class="nav-item  ml-7">
       <a href="{{url_for('detection')}}"
       class="text-lg	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Detection' %}underline underline underline-offset-8{% endif %}"><i
-        class="bi bi-thermometer-half"></i> Prediction</a>
+        class="bi bi-thermometer-half"></i> Détéction inconfort</a>
     </li>
-
+    <li class="nav-item  ml-7">
+      <a href="{{url_for('graph')}}"
+      class="text-lg	m-0 font-bold leading-6 text-gray-900  {% if active_page == 'Graph' %}underline underline-offset-8{% endif %}"><i
+        class="bi bi-graph-up"></i> Dashboard</a>
+    </li>
 
 
 

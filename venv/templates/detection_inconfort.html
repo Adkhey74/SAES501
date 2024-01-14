@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detection inconfort</title>
+  <title>Détéction inconfort</title>
   <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
 
   {% include 'link.html' %}
@@ -12,21 +12,97 @@
 
 </head>
 
-<body class="">
-    
-    {% include 'navbar.html' %}
-    <div class="flex justify-center bg-cyan-900" style="height: 93vh;">
+<body class="bg-gray-900">
 
-      <div class="flex justify-end items-center" style="width: 50vw; height: 80vh;">
+  {% include 'navbar.html' %}
+  <div id="particles-js" style="height: 185vh;width: 100vw;z-index: -50; position: fixed; top: 0;">
 
 
-      </div>
+  </div>
+
+  <div class="justify-center flex mb-1 fade-in">
 
 
+    <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-building"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
+        <option value="D251">D251</option>
+        <option value="D351">D351</option>
+        <option value="D360">D360</option>
+
+
+
+      </select>
 
     </div>
 
 
+
+  </div>
+  <div class="flex justify-end mb-3 mr-40 fade-in">
+    <div class=" text-red-500 ml-5 mt-2 text-2xl" >
+      <i class="bi bi-x-circle-fill"></i> Inconfort      
+    </div>
+    <div class=" text-green-500 ml-5 mt-2 text-2xl" >
+      <i class="bi bi-check-circle-fill"></i>
+      Confort      
+    </div>
+  </div>
+
+  <div class="flex justify-center items-center fade-in">
+
+    <div class="grid grid-cols-2 gap-14 pr-5 " style="height: 80vh; overflow: auto;">
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Détéction fenêtre ouverte</h1>
+
+        <div class="flex justify-center  text-green-500 items-center"
+          style="width: 40vw; height: 28vh; font-size: 160px;">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+      </div>
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 </h1>
+        <div class="flex justify-center  text-red-500 items-center"
+          style="width: 40vw; height: 28vh; font-size: 160px;">
+          <i class="bi bi-x-circle-fill"></i>
+        </div>
+      </div>
+
+
+      <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit</h1>
+
+        <div class="flex justify-center  text-red-500 items-center"
+          style="width: 40vw; height: 28vh; font-size: 160px;">
+          <i class="bi bi-x-circle-fill"></i>
+        </div>
+      </div>
+      <div id="container_humidite" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Mouvement</h1>
+
+        <div class="flex justify-center  text-green-500 items-center"
+          style="width: 40vw; height: 28vh; font-size: 160px;">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+      </div>
+      <div id="container_UV" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
+
+        <div class="flex justify-center  text-green-500 items-center"
+          style="width: 40vw; height: 28vh; font-size: 160px;">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+
+
+  {% include 'link_js.html' %}
 
 
 
@@ -35,5 +111,8 @@
 
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 
 </html>
