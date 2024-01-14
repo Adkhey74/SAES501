@@ -166,17 +166,18 @@
     const eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2`);
     const eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite`);
     const eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite`);
-
+    const eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV`);
 
 
 
     $('#container_bruit').hide();
-    $('#container_UV').hide();
+    $('#container_µg').hide();
 
     add_Data_toGraph(eventSourceD251, barChartTemperature)
     add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
     add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
     add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+    add_Data_toGraph(eventSource_D251_UV, barChartUV)
 
 
 
@@ -188,8 +189,10 @@
         const eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2`);
         const eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite`);
         const eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite`);
+        const eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV`);
+
+        
         $('#container_bruit').hide();
-        $('#container_UV').hide();
         $('#container_µg').hide();
 
 
@@ -198,6 +201,8 @@
         add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
         add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
         add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+        add_Data_toGraph(eventSource_D251_UV, barChartUV)
+
 
 
 
@@ -221,7 +226,6 @@
 
 
         add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
-
         add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
         add_Data_toGraph(eventSourceD351, barChartTemperature)
         add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
@@ -241,13 +245,13 @@
         const eventSource_D360_CO2 = new EventSource(`http://${host}:34/get_data/d360/CO2`);
         const eventSource_D360_Lx = new EventSource(`http://${host}:34/get_data/d360/luminosite`);
         const eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite`);
+        const eventSource_D360_UV = new EventSource(`http://${host}:34/get_data/d360/UV`);
 
 
 
 
 
         $('#container_bruit').hide();
-        $('#container_UV').hide();
         $('#container_µg').hide();
 
 
@@ -256,6 +260,8 @@
         add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
         add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
         add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
+        add_Data_toGraph(eventSource_D360_UV, barChartUV)
+
 
 
 

@@ -72,9 +72,9 @@ def get_data(salle, unite):
         measurement = '%'
         temps ='-2d'
     elif unite.lower() == "uv":
-        entity_id = f"{salle}_2_multisensor_ultraviolet"
+        entity_id = f"{salle}_1_multisensor_ultraviolet"
         measurement = 'UV index'
-        temps ='-2d'
+        temps ='-7d'
     elif unite.lower() == "µg":
         entity_id = f"{salle}_1_multisensor9_particulate_matter_2_5"
         measurement = 'µg/m³'
