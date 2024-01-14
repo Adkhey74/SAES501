@@ -26,7 +26,7 @@ def home():
     # Par exemple, rendre un modèle avec render_template
 
     # Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
-    pred = predict(key="ppm")
+    # pred = predict(key="ppm")
     
     return render_template('home.html',active_page='Home')
 
@@ -72,12 +72,12 @@ def get_data(salle, unite):
         measurement = '%'
         temps ='-2d'
     elif unite.lower() == "uv":
-        entity_id = f"{salle}_1_multisensor_ultraviolet"
+        entity_id = f"{salle}_2_multisensor_ultraviolet"
         measurement = 'UV index'
         temps ='-2d'
 
     # query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "°C")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_air_temperature")|> aggregateWindow(every: 1h, fn: mean, createEmpty: false)|> yield(name: "mean")'
-    query = f'from(bucket: "IUT_BUCKET")|> range(start:{temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
+    query = f'from(bucket: "IUT_BUCKET")|> range(start: {temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
     print(query)
 
 
