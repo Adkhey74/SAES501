@@ -14,20 +14,20 @@
     </li>
 
   </ul>
-  <div class="flex justify-center items-center" style="width: 100vw; height: 70vh;">
-      <ul class="grid grid-cols-1 gap-12" id="menu"> 
+  <div class="flex justify-center items-center" style="width: 100vw; height: 80vh;">
+      <ul class="grid grid-cols-3 gap-12" id="menu"> 
 
-        <li class="nav-item  ">
+        <li class=" place-self-center">
           <a href="{{url_for('home')}}"
           class="text-6xl	  font-bold   {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-400 {% endif %}"><i
             class="bi bi-house-fill"></i> Home</a>
         </li>
-        <li class="nav-item {% if active_page == 'Detection' %} {% endif %}" >
+        <li class="{% if active_page == 'Detection' %} {% endif %} place-self-center" >
           <a href="{{url_for('detection')}}"
           class="text-6xl	  font-bold  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-400 {% endif %}"><i
             class="bi bi-thermometer-half"></i> Détéction inconfort</a>
         </li>
-        <li class="nav-item ">
+        <li class="place-self-center">
           <a href="{{url_for('graph')}}"
           class="text-6xl	 font-bold   {% if active_page == 'Graph' %}text-white rounded {% else %} text-gray-400 {% endif %}"><i
             class="bi bi-graph-up"></i> Dashboard</a>
