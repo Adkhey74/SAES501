@@ -75,6 +75,10 @@ def get_data(salle, unite):
         entity_id = f"{salle}_2_multisensor_ultraviolet"
         measurement = 'UV index'
         temps ='-2d'
+    elif unite.lower() == "µg":
+        entity_id = f"{salle}_1_multisensor9_particulate_matter_2_5"
+        measurement = 'µg/m³'
+        temps ='-2d'
 
     # query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "°C")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_air_temperature")|> aggregateWindow(every: 1h, fn: mean, createEmpty: false)|> yield(name: "mean")'
     query = f'from(bucket: "IUT_BUCKET")|> range(start: {temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'

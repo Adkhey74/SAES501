@@ -71,6 +71,11 @@
 
         <canvas id="" class="p-5 UV" style="height: 28vh; width: 40vw;"></canvas>
       </div>
+      <div id="container_µg" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
+
+        <canvas id="" class="p-5 µg" style="height: 28vh; width: 40vw;"></canvas>
+      </div>
     </div>
   </div>
 
@@ -98,231 +103,63 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     var host = window.location.hostname;
+    function create_graph(color,classgraph)
+    {
+        const name = new Chart($(classgraph), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            borderWidth: 2,
+            borderColor: color,
+            backgroundColor: color
+
+          }]
+        },
+        options: {
+          responsive: true,
+
+          scales: {
+            y: {
+              ticks: {
+                color: 'white'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'white'
+              }
+            }
+          },
+          legend: {
+            labels: {
+              fontColor: 'white' // Définir la couleur du texte de la légende
+            }
+          }
+        }
+      });
+
+    return name
+    }
+
+
+    const barChartTemperature = create_graph('rgb(173, 216, 230)','.temperature')
+    const barChartCO2 = create_graph('rgb(255, 255, 240)','.CO2')
+    const barChartHumidite = create_graph('white','.humidite')
+    const barChartUV = create_graph('purple','.UV')
+    const barChartLuminosité = create_graph('rgb(255, 182, 193)','.Luminosité')
+    const barChartBruit = create_graph('rgb(144, 238, 144)','.Bruit')
+    const barChartµg = create_graph('rgb(144, 238, 144)','.µg')
+
+
+
 
     // Initialiser le graphique une seule fois
-    const barChartTemperature = new Chart($('.temperature'), {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          borderWidth: 2,
-          borderColor: 'rgb(173, 216, 230)',
-          backgroundColor: 'rgb(173, 216, 230)'
+   
+    
 
-        }]
-      },
-      options: {
-        responsive: true,
-
-        scales: {
-          y: {
-            ticks: {
-              color: 'white'
-            }
-          },
-          x: {
-            ticks: {
-              color: 'white'
-            }
-          }
-        },
-        legend: {
-          labels: {
-            fontColor: 'white' // Définir la couleur du texte de la légende
-          }
-        }
-      }
-    });
-    const barChartCO2 = new Chart($('.CO2'), {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          borderWidth: 1,
-          borderColor: 'rgb(255, 255, 240)',
-          backgroundColor: 'rgb(255, 255, 200)',
-          point: {
-            radius: 0, // Définissez le rayon des points à 0 pour les masquer
-            pointStyle: false // Désactivez l'affichage des points
-          },
-          tension: 0.4, // Ajustez la valeur de tension selon vos préférences
-          cubicInterpolationMode: 'monotone', // Utilisez la méthode de l'interpolation cubique monotone pour une courbe plus lisse
-          fill: false, // Désactivez le remplissage de la zone sous la courbe pour une meilleure visibilité
-          sampling: 'average' // Utilisez 'average' pour réduire le nombre de points tout en maintenant la moyenne
-        }]
-      },
-      options: {
-        responsive: true,
-
-        scales: {
-          y: {
-            ticks: {
-              color: 'white'
-            }
-          },
-          x: {
-            ticks: {
-              color: 'white'
-            }
-          }
-        },
-        legend: {
-          labels: {
-            fontColor: 'white'
-          }
-        }
-      }
-    });
-    const barChartLuminosité = new Chart($('.Luminosité'), {
-      type: 'line',
-      data: {
-        
-        labels: [],
-        datasets: [{
-          data: [],
-          borderWidth: 2,
-          borderColor: 'rgb(255, 182, 193)',
-          backgroundColor: 'rgb(255, 182, 193)'
-
-        }]
-      },
-      options: {
-        responsive: true,
-
-        scales: {
-          y: {
-            ticks: {
-              color: 'white'
-            }
-          },
-          x: {
-            ticks: {
-              color: 'white'
-            }
-          }
-        },
-        legend: {
-          labels: {
-            fontColor: 'white' // Définir la couleur du texte de la légende
-          }
-        }
-      }
-    });
-
-    const barChartBruit = new Chart($('.Bruit')
-      , {
-        type: 'line',
-        data: {
-          responsive: true,
-
-          labels: [],
-          datasets: [{
-            data: [],
-            borderWidth: 2,
-            borderColor: 'rgb(144, 238, 144)',
-            backgroundColor: 'rgb(144, 238, 144)'
-
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              ticks: {
-                color: 'white'
-              }
-            },
-            x: {
-              ticks: {
-                color: 'white'
-              }
-            }
-          },
-          legend: {
-            labels: {
-              fontColor: 'white' // Définir la couleur du texte de la légende
-            }
-          }
-        }
-      });
-
-      const barChartHumidite = new Chart($('.humidite')
-      , {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [{
-            data: [],
-            borderWidth: 2,
-            borderColor: 'white',
-            backgroundColor: 'white'
-
-          }]
-        },
-        options: {
-          responsive: true,
-
-          scales: {
-            y: {
-              ticks: {
-                color: 'white'
-              }
-            },
-            x: {
-              ticks: {
-                color: 'white'
-              }
-            }
-          },
-          legend: {
-            labels: {
-              fontColor: 'white' // Définir la couleur du texte de la légende
-            }
-          }
-        }
-        
-      });
       
-
-      const barChartUV = new Chart($('.UV')
-      , {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [{
-            data: [],
-            borderWidth: 2,
-            borderColor: 'purple',
-            backgroundColor: 'purple'
-
-          }]
-        },
-        options: {
-          responsive: true,
-
-          scales: {
-            y: {
-              stacked: true,
-
-              ticks: {
-                color: 'white'
-              }
-            },
-            x: {
-              ticks: {
-                color: 'white'
-              }
-            }
-          },
-          legend: {
-            labels: {
-              fontColor: 'white' // Définir la couleur du texte de la légende
-            }
-          }
-        }
-        
-      });
       
 
     const eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature`);
@@ -353,6 +190,7 @@
         const eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite`);
         $('#container_bruit').hide();
         $('#container_UV').hide();
+        $('#container_µg').hide();
 
 
 
@@ -371,11 +209,15 @@
         const eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit`);
         const eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite`);
         const eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV`);
+        const eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg`);
+
 
 
 
         $('#container_bruit').show();
         $('#container_UV').show();
+        $('#container_µg').show();
+
 
 
         add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
@@ -385,6 +227,8 @@
         add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
         add_Data_toGraph(eventSource_D351_db, barChartBruit)
         add_Data_toGraph(eventSource_D351_UV, barChartUV)
+        add_Data_toGraph(eventSource_D351_µg, barChartµg)
+
 
 
 
@@ -404,6 +248,8 @@
 
         $('#container_bruit').hide();
         $('#container_UV').hide();
+        $('#container_µg').hide();
+
 
 
         add_Data_toGraph(eventSourceD360, barChartCO2)
