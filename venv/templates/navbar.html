@@ -4,37 +4,41 @@
 <div class="fixed top-2 left-2">
   <button id="btn-1"  class="btn-menu text-gray-500 text-6xl"><i class="bi bi-list"></i></button>
 </div>
-<div id="menu" class="navbar  test2 bg-black/40 backdrop-blur-sm   w-fit fixed top-0 items-start  p-2 z-50 border-bottom border-body" data-bs-theme="dark" style="height: 100vh; width: 15vw;left: -300px; ">
-    <ul class="grid grid-cols-1 gap-8 top-32" id="menu"> 
-      <ul class="   " >
-  
+<div id="menu" class="navbar  test2 bg-black/40 backdrop-blur-xl   w-fit fixed top-0 items-start   z-50 border-bottom border-body" data-bs-theme="dark" style="height: 100vh; width: 100vw;left: -100vw; ">
+  <ul class=" fixed  " >
+    
+    <li class="nav-item  ">
+
+      <button class=" btn-menu text-gray-400 text-6xl"><i class="bi bi-list"></i></button>
+
+    </li>
+
+  </ul>
+  <div class="flex justify-center items-center" style="width: 100vw; height: 70vh;">
+      <ul class="grid grid-cols-1 gap-12" id="menu"> 
+
         <li class="nav-item  ">
-
-          <button class=" btn-menu text-gray-400 text-6xl"><i class="bi bi-list"></i></button>
-
+          <a href="{{url_for('home')}}"
+          class="text-6xl	  font-bold   {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-400 {% endif %}"><i
+            class="bi bi-house-fill"></i> Home</a>
         </li>
+        <li class="nav-item {% if active_page == 'Detection' %} {% endif %}" >
+          <a href="{{url_for('detection')}}"
+          class="text-6xl	  font-bold  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-400 {% endif %}"><i
+            class="bi bi-thermometer-half"></i> Détéction inconfort</a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{url_for('graph')}}"
+          class="text-6xl	 font-bold   {% if active_page == 'Graph' %}text-white rounded {% else %} text-gray-400 {% endif %}"><i
+            class="bi bi-graph-up"></i> Dashboard</a>
+        </li>
+
+    
+    
     
       </ul>
-      <li class="nav-item  ">
-        <a href="{{url_for('home')}}"
-        class="text-2xl	  font-bold leading-6  p-2 {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-500 {% endif %}"><i
-          class="bi bi-house-fill"></i> Home</a>
-      </li>
-   
-      <li class="nav-item {% if active_page == 'Detection' %} {% endif %}" style="width: 15vw; ">
-        <a href="{{url_for('detection')}}"
-        class="text-2xl	 m-0 font-bold leading-6  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-500 {% endif %}"><i
-          class="bi bi-thermometer-half"></i> Détéction inconfort</a>
-      </li>
-      <li class="nav-item ">
-        <a href="{{url_for('graph')}}"
-        class="text-2xl	m-0 font-bold leading-6  p-2 {% if active_page == 'Graph' %}text-white rounded {% else %} text-gray-500 {% endif %}"><i
-          class="bi bi-graph-up"></i> Dashboard</a>
-      </li>
-  
-  
-  
-    </ul>
+    </div>
+
     <img src="../static/media/iut_logo.png" class="fixed bottom-2" alt="" style="width: 10vw;">
 
   </div>
@@ -44,7 +48,7 @@
 
       <li class="nav-item  mt-2 mb-2 mr-4 ">
         <a href="{{url_for('connexion')}}"
-        class="text-2xl	 m-0 font-bold leading-6 text-gray-900 {% if active_page == 'Connexion' %}bg-gray-900 rounded p-2 text-white{% endif %}"><i class="bi bi-person-circle"></i></a>
+        class="text-2xl	 m-0 font-bold text-gray-900 {% if active_page == 'Connexion' %}bg-gray-900 rounded p-2 text-white{% endif %}"><i class="bi bi-person-circle"></i></a>
       </li>
 
     </ul> -->
@@ -58,14 +62,14 @@
     $('#menu').toggleClass('test')
     anime({
       targets: '.test',
-      translateX: 300,
+      translateX: '100vw',
 
     });
     $('#menu').toggleClass('test2')
 
     anime({
       targets: '.test2',
-      translateX: -300,
+      translateX: '-100vw',
 
     });
 
