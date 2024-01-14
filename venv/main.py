@@ -41,8 +41,8 @@ def graph():
 
 
 
-@app.route('/get_data/<salle>/<unite>')
-def get_data(salle, unite):
+@app.route('/get_data/<salle>/<unite>/<temps>')
+def get_data(salle, unite,temps):
     # Create a client
     client = InfluxDBClient(url=url, token=token, org=org, timeout=20000)
     # Create a query
@@ -50,11 +50,9 @@ def get_data(salle, unite):
     if unite.lower() == "co2":
         entity_id = f"{salle}_1_co2_carbon_dioxide_co2_level"
         measurement = 'ppm'
-        temps ='-12h'
     elif unite.lower() == "temperature":
         entity_id = f"{salle}_1_co2_air_temperature"
         measurement = '°C'
-        temps ='-12h'
 
     elif unite.lower() == "luminosite":
         if salle == 'd360':
@@ -62,26 +60,21 @@ def get_data(salle, unite):
         else:
             entity_id = f"{salle}_1_multisensor_illuminance"
         measurement = 'lx'
-        temps ='-2d'
     elif unite.lower() == "bruit":
         entity_id = f"{salle}_1_multisensor9_loudness"
         measurement = 'dBA'
-        temps ='-2h'
     elif unite.lower() == "humidite":
         entity_id = f"{salle}_1_co2_humidity"
         measurement = '%'
-        temps ='-2d'
     elif unite.lower() == "uv":
         entity_id = f"{salle}_1_multisensor_ultraviolet"
         measurement = 'UV index'
-        temps ='-7d'
     elif unite.lower() == "µg":
         entity_id = f"{salle}_1_multisensor9_particulate_matter_2_5"
         measurement = 'µg/m³'
-        temps ='-2d'
 
     # query = 'from(bucket: "IUT_BUCKET")|> range(start: -12h)|> filter(fn: (r) => r["_measurement"] == "°C")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "d351_1_multisensor9_air_temperature")|> aggregateWindow(every: 1h, fn: mean, createEmpty: false)|> yield(name: "mean")'
-    query = f'from(bucket: "IUT_BUCKET")|> range(start: {temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
+    query = f'from(bucket: "IUT_BUCKET")|> range(start: -{temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
     print(query)
 
 
