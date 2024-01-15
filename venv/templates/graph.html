@@ -408,22 +408,35 @@
         // Traiter les données reçues
         console.log(data)
 
-        console.log(data[0])
-        values = data.map(item => item.value);
-        times = data.map(item => formatTime(item.time));
-        capteur = data[0].entity;
 
 
-        console.log(values)
-        console.log(times)
-        console.log(capteur)
+        if( data.length > 0)
+        {
+          capteur = data[0].entity;
+
+          values = data.map(item => item.value);
+          times = data.map(item => formatTime(item.time));
+          updateChart(barChart,values,times,capteur);
+          console.log(values)
+          console.log(times)
+          console.log(capteur)
+
+        }
+        else
+        {
+          console.log('PAS DE DATA')
+          updateChart(barChart,[],[],'');
+
+        }
+
+
+
 
 
 
 
         compt++;
         // Mettre à jour le graphique après avoir reçu des données
-        updateChart(barChart);
         if (compt == 1) {
           eventSource.close();
         }
@@ -443,7 +456,7 @@
       return formattedTime;
     }
     // Fonction pour mettre à jour le graphique avec les nouvelles données
-    function updateChart(barChart) {
+    function updateChart(barChart,values,times,capteur) {
       barChart.data.datasets[0].label = capteur;
       barChart.data.labels = times;
       barChart.data.datasets[0].data = values;
