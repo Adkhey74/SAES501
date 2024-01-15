@@ -122,7 +122,16 @@ def get_data(salle, unite,temps):
     query = f'from(bucket: "IUT_BUCKET")|> range(start: -{temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
     print(query)
 
-
+    # query = f'''
+    #     import "strings"
+    #     from(bucket: "IUT_BUCKET")
+    #     |> range(start: -{temps})
+    #     |> filter(fn: (r) => r["_measurement"] == "{measurement}")
+    #     |> filter(fn: (r) => r["_field"] == "value")
+    #     |> filter(fn: (r) => r["domain"] == "sensor")
+    #     |> filter(fn: (r) => strings.hasPrefix(v: r["entity_id"], prefix: "{entity_id}"))
+    #     |> yield(name: "mean")
+    # '''
     # Get the Query API
     query_api = client.query_api()
 

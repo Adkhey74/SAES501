@@ -28,6 +28,9 @@
           <option value="D251">D251</option>
           <option value="D351">D351</option>
           <option value="D360">D360</option>
+          <option value="S10">Tetras (S10)</option>
+          <option value="S15">Tetras (S15)</option>
+
   
   
   
@@ -57,42 +60,42 @@
 
     <div class="grid grid-cols-2 gap-14 pr-5 fade-in" style="height: 80vh; overflow: auto;">
 
-      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
-
-        <canvas id="" class="p-5 temperature" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="temperature" class=" w-full" style="height: 30vh;" ></div>
+        <!-- <canvas  class="p-5 temperature" style="height: 28vh; width: 40vw;"></canvas> -->
       </div>
 
-      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded " style="height:40vh ; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-        <canvas id="" class="p-5 CO2" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="CO2" class=" w-full" style="height: 30vh;" ></div>
       </div>
 
-      <div id="container" class="bg-gray-800 rounded 0" style="height: fit-content; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded 0" style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
 
-        <canvas id="" class="p-5 Luminosité" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="Luminosité" class=" w-full" style="height: 30vh;" ></div>
       </div>
 
-      <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+      <div id="container_bruit" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
 
-        <canvas id="" class="p-5 Bruit" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="Bruit" class=" w-full" style="height: 30vh;" ></div>
       </div>
-      <div id="container_humidite" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+      <div id="container_humidite" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
 
-        <canvas id="" class="p-5 humidite" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="humidite" class=" w-full" style="height: 30vh;" ></div>
       </div>
-      <div id="container_UV" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+      <div id="container_UV" class="bg-gray-800 rounded" style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
 
-        <canvas id="" class="p-5 UV" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="UV" class=" w-full" style="height: 30vh;" ></div>
       </div>
-      <div id="container_µg" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+      <div id="container_µg" class="bg-gray-800 rounded" style="height: 40vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
 
-        <canvas id="" class="p-5 µg" style="height: 28vh; width: 40vw;"></canvas>
+        <div id="µg" class=" w-full" style="height: 30vh;" ></div>
       </div>
     </div>
   </div>
@@ -117,8 +120,11 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+
 
 <script>
+  
   document.addEventListener("DOMContentLoaded", function () {
     var host = window.location.hostname;
     function create_graph(color,classgraph)
@@ -160,15 +166,90 @@
 
     return name
     }
+    function create_graph2(color, classgraph) {
+      TESTER = document.getElementById(classgraph);
+       // Définir le type de trace par défaut comme "scatter"
+      var trace = {
+        x: [],
+        y: [],
+        line: { color: color },
+        mode: 'lines+markers'
+        
+      };
+      var traceType = 'scatter';
+
+      if (traceType) {
+        trace.type = traceType;
+      }
+      var graph = Plotly.newPlot(TESTER, [trace], {
+        padding: { t: 5, l: 5, r: 5, b: 5 },
+        margin:{t:20},
+        animate: true, // Active l'animation
+ // Ajoutez le padding en ajustant ces valeurs
+        paper_bgcolor: 'rgb(45, 55, 72)',
+        plot_bgcolor: 'rgb(45, 55, 72)',  // Définir la couleur du fond
+        xaxis: {
+          tickfont: { color: 'white' }  // Couleur du texte pour l'axe x
+        },
+        yaxis: {
+          tickfont: { color: 'white' }  // Couleur du texte pour l'axe y
+        }
+      });
+
+      console.log(graph);  // Afficher l'objet graph dans la console
+
+      return graph;
+    }
+
+
+
+    function updateChart(barChart) {
+      barChart.data.datasets[0].label = capteur;
+      barChart.data.labels = times;
+      barChart.data.datasets[0].data = values;
+      barChart.update();
+      // Mettre à jour le graphique sans le recréer
+    }
+    function updateChart2(barChart, newDataX, newDataY) {
+      console.log('datax : ', newDataX, '    datay : ', newDataY);
+      console.log(barChart);
+      Plotly.animate(barChart, {
+        data: [{ x: newDataX, y: newDataY }],
+      }, {
+        transition: {
+          duration: 500, // Durée de l'animation en millisecondes
+          easing: 'cubic-in-out', // Fonction d'interpolation pour l'animation
+        },
+      });
+      // Mettre à jour les données de la première trace (indice 0) dans barChart, pas dans une variable appelée 'graph'
+      barChart.data[0].x = newDataX;
+      barChart.data[0].y = newDataY;
+
+      // Redessiner le graphique
+      Plotly.redraw(barChart);
+    }
+
+
+    function extractPromiseValue(promise) {
+      return promise.then(value => value);
+    }
+
+    // Modifiez votre code pour extraire la valeur résolue de la promesse
+    // var legraphPromise = create_graph2('white', '.temperature');
+    var legraph;
+
+
+
+
 
     
-    var barChartTemperature = create_graph('rgb(173, 216, 230)','.temperature')
-    var barChartCO2 = create_graph('rgb(255, 255, 240)','.CO2')
-    var barChartHumidite = create_graph('white','.humidite')
-    var barChartUV = create_graph('purple','.UV')
-    var barChartLuminosité = create_graph('rgb(255, 182, 193)','.Luminosité')
-    var barChartBruit = create_graph('rgb(144, 238, 144)','.Bruit')
-    var barChartµg = create_graph('rgb(144, 238, 144)','.µg')
+    var barChartTemperature = create_graph2('rgb(173, 216, 230)','temperature')
+    var barChartCO2 = create_graph2('rgb(255, 255, 240)','CO2')
+    var barChartHumidite = create_graph2('white','humidite')
+    var barChartUV = create_graph2('purple','UV')
+    var barChartLuminosité = create_graph2('rgb(255, 182, 193)','Luminosité')
+    var barChartBruit = create_graph2('rgb(144, 238, 144)','Bruit')
+    var barChartµg = create_graph2('rgb(144, 238, 144)','µg')
 
 
 
@@ -191,7 +272,6 @@
 
     $('#container_bruit').hide();
     $('#container_µg').hide();
-
     add_Data_toGraph(eventSourceD251, barChartTemperature)
     add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
     add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
@@ -378,7 +458,7 @@
       }
     })
 
-    function add_Data_toGraph(eventSource, barChart,) {
+    function add_Data_toGraph(eventSource, barChart) {
       var compt = 0
 
       eventSource.onmessage = function (event) {
@@ -404,7 +484,18 @@
 
         compt++;
         // Mettre à jour le graphique après avoir reçu des données
-        updateChart(barChart);
+        // updateChart(barChart);
+        extractPromiseValue(barChart).then(resolvedValue => {
+          legraph = resolvedValue;
+
+          // Supposons que vous ayez de nouvelles données
+          var nouvellesDonneesX = times;
+          var nouvellesDonneesY = values;
+
+          // Appelez la fonction de mise à jour avec les nouvelles données
+          updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY);
+        });
+        
         if (compt == 1) {
           eventSource.close();
         }
@@ -424,13 +515,7 @@
       return formattedTime;
     }
     // Fonction pour mettre à jour le graphique avec les nouvelles données
-    function updateChart(barChart) {
-      barChart.data.datasets[0].label = capteur;
-      barChart.data.labels = times;
-      barChart.data.datasets[0].data = values;
-      barChart.update();
-      // Mettre à jour le graphique sans le recréer
-    }
+
 
 
 
