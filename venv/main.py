@@ -29,9 +29,11 @@ def home():
     # Votre logique de traitement peut être ajoutée ici
     # Par exemple, rendre un modèle avec render_template
 
-    # Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
-    # pred = predict(key="ppm")
-    
+    # (d351)Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
+    # (d251 et d360)Possible keys = ["lx", "°C", "ppm", "UV index"]
+    # Possible salles = ["d251", "d351", "d360"]
+    pred = predict(key="ppm", salle = "d360")
+    print(pred)
     return render_template('home.html',active_page='Home')
 
 @app.route('/graph.html')
