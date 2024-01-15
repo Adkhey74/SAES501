@@ -9,8 +9,8 @@ DBA_THRESHOLD_INCOMFORT = 70
 DBA_THRESHOLD_DANGER = 80
 
 # Window Open
-PPM_WINDOW_DIFFERENCE = 500
-DEGREE_WINDOW_DIFFERENCE = 0.5
+PPM_WINDOW_DIFFERENCE = 200
+DEGREE_WINDOW_DIFFERENCE = 0.2
 
 # Presence D351
 DBA_PRESENCE_THRESHOLD = 50
@@ -29,7 +29,7 @@ def calculate_average(results):
     return average
 
 
-def build_query(bucket, room, measurement, start, exclude, end,):
+def build_query(bucket, room, measurement, start, exclude, end,last=False):
     date_start = get_date_n_minutes_later(start)
 
     if end == 0:
@@ -40,7 +40,8 @@ def build_query(bucket, room, measurement, start, exclude, end,):
 
     if exclude != "":
         query += f'|> filter(fn: (r) => r["entity_id"] !~ /{exclude}/)'
-
+    if last:
+        query += f'|> last()'
     return query
 
 
@@ -104,13 +105,13 @@ def dba_is_discomfort(client, org, bucket, room):
 # return 0 si fenêtre ouverte 
 # return 1 si fenêtre fermée
 def window_close(client, org, bucket, room, last_data=0):
-    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0)
+    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0,last=True)
     query_10_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=10, exclude="dew", end=5)
-    query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5)
+    # query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5)
 
-    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0)
+    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0, last=True)
     query_10_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=10, exclude="compound", end=5)
-    query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5)
+    # query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5)
 
     window_status = 2
     try:
