@@ -381,6 +381,14 @@ def predict(key='°C', salle = "d251"):
     data_by_measurement_normalized, data_by_measurement_no_normalized = traitement_donnees(data_by_measurement)
     organized_dataX, organized_dataY = structure(data_by_measurement_normalized, data_by_measurement_no_normalized)
     X = pred_split(organized_dataX)
-    pred = prediction(model,X)
-    print("Les prédictions", pred)
-    return pred
+    tab_res = []
+
+    pred = prediction(model,X) 
+    for table in pred:
+        for record in table:
+                tab_res.append({
+                    'value': record,
+
+                })    
+    print("Les prédictions", tab_res)
+    return tab_res

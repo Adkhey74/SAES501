@@ -20,40 +20,41 @@
 
   </div>
 
-    <div class="justify-center flex mb-5 mt-5 fade-in">
-      <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
-        <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
-            class="bi bi-building"></i></span>
-        <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
-          <option value="D251">D251</option>
-          <option value="D351">D351</option>
-          <option value="D360">D360</option>
-  
-  
-  
-        </select>
-        
-      </div>
-      <div class="input-group flex-nowrap mt-2 ml-2 " style="width: 10vw;">
-        <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i class="bi bi-clock-history"></i></span>
-        <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
-          <option value="1h">1h</option>
-          <option value="3h">3h</option>
-          <option value="6h">6h</option>
-          <option value="12h">12h</option>
-          <option value="24h">24h</option>
-          <option value="2d">2d</option>
+  <div class="justify-center flex mb-5 mt-5 fade-in">
+    <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-building"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
+        <option value="D251">D251</option>
+        <option value="D351">D351</option>
+        <option value="D360">D360</option>
 
 
-  
-  
-  
-        </select>
-        
-      </div>
+
+      </select>
+
     </div>
+    <div class="input-group flex-nowrap mt-2 ml-2 " style="width: 10vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-clock-history"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
+        <option value="1h">1h</option>
+        <option value="3h">3h</option>
+        <option value="6h">6h</option>
+        <option value="12h">12h</option>
+        <option value="24h">24h</option>
+        <option value="2d">2d</option>
 
-  <div class="flex justify-center  align-items-start   " >
+
+
+
+
+      </select>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center  align-items-start   ">
 
     <div class="grid grid-cols-2 gap-14 pr-5 fade-in" style="height: 80vh; overflow: auto;">
 
@@ -123,81 +124,76 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     var host = window.location.hostname;
-    function create_graph(color,classgraph)
-    {
-        var name = new Chart($(classgraph), {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [{
-            data: [],
-            borderWidth: 2,
-            borderColor: color,
-            backgroundColor: color
+    function create_graph(color, classgraph) {
+      var name = new Chart($(classgraph), {
+  type: 'line',
+  data: {
+    labels: [], // Vos labels ici
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: [], // Vos données pour la première courbe ici
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 2,
+        fill: false,
+      },
+      {
+        label: 'Dataset 2',
+        data: [], // Vos données pour la deuxième courbe ici
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2,
+        fill: false,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    stacked: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart - Multiple Datasets on Same Axis',
+      },
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+      },
+      x: {
+        // Votre configuration pour l'axe X ici
+      },
+    },
+  },
+});
 
-          }]
-        },
-        options: {
-          
-          responsive: true,
-          plugins: {
-            zoom: {
-              zoom: {
-                wheel: {
-                  enabled: true,
-                },
-                pinch: {
-                  enabled: true,
-                },
-                mode: 'xy',
-              },
-              pan: {
-                enabled: true,
-                mode: 'xy',
-              },
-            },
-          },
-             scales: {
-            y: {
-              ticks: {
-                color: 'white'
-              }
-            },
-            x: {
-              ticks: {
-                color: 'white'
-              }
-            }
-          },
-          legend: {
-            labels: {
-              fontColor: 'white' // Définir la couleur du texte de la légende
-            }
-          }
-        }
-      });
 
-    return name
+      return name
     }
 
-    
-    var barChartTemperature = create_graph('rgb(173, 216, 230)','.temperature')
-    var barChartCO2 = create_graph('rgb(255, 255, 240)','.CO2')
-    var barChartHumidite = create_graph('white','.humidite')
-    var barChartUV = create_graph('purple','.UV')
-    var barChartLuminosité = create_graph('rgb(255, 182, 193)','.Luminosité')
-    var barChartBruit = create_graph('rgb(144, 238, 144)','.Bruit')
-    var barChartµg = create_graph('rgb(144, 238, 144)','.µg')
+
+    var barChartTemperature = create_graph('rgb(173, 216, 230)', '.temperature')
+    var barChartCO2 = create_graph('rgb(255, 255, 240)', '.CO2')
+    var barChartHumidite = create_graph('white', '.humidite')
+    var barChartUV = create_graph('purple', '.UV')
+    var barChartLuminosité = create_graph('rgb(255, 182, 193)', '.Luminosité')
+    var barChartBruit = create_graph('rgb(144, 238, 144)', '.Bruit')
+    var barChartµg = create_graph('rgb(144, 238, 144)', '.µg')
 
 
 
 
     // Initialiser le graphique une seule fois
-   
-    
 
-      
-      
+
+
+
+
     var temps = $('#temps').val()
 
     var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
@@ -206,16 +202,22 @@
     var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
     var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
+    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+    var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/co2`);
+    var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
+    // var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+    // var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
+
 
 
     $('#container_bruit').hide();
     $('#container_µg').hide();
 
-    add_Data_toGraph(eventSourceD251, barChartTemperature)
-    add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-    add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-    add_Data_toGraph(eventSource_D251_UV, barChartUV)
+    add_Data_toGraph(eventSourceD251, barChartTemperature,eventSourceD251_prediction)
+    add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+    // add_Data_toGraph(eventSource_D251_pc, barChartHumidite,eventSource_D251_pc_prediction)
+    // add_Data_toGraph(eventSource_D251_UV, barChartUV,eventSource_D251_UV_prediction)
 
 
 
@@ -231,17 +233,23 @@
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
         var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
-        
+        var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+        var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
+        var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
+        var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+        var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
+
+
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
 
 
-        add_Data_toGraph(eventSourceD251, barChartTemperature)
-        add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D251_UV, barChartUV)
+        add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
+        add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+        // add_Data_toGraph(eventSource_D251_pc, barChartHumidite,eventSource_D251_pc_prediction)
+        // add_Data_toGraph(eventSource_D251_UV, barChartUV,eventSource_D251_UV_prediction)
 
 
 
@@ -319,17 +327,25 @@
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
         var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
+        var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+        var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
+        var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
+        var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+        var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
+
         
+
+
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
 
 
-        add_Data_toGraph(eventSourceD251, barChartTemperature)
-        add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D251_UV, barChartUV)
+        add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
+        add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+        // add_Data_toGraph(eventSource_D251_pc, barChartHumidite,eventSource_D251_pc_prediction)
+        // add_Data_toGraph(eventSource_D251_UV, barChartUV,eventSource_D251_UV_prediction)
 
 
 
@@ -343,6 +359,12 @@
         var eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite/${temps}`);
         var eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV/${temps}`);
         var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+
+        var eventSourceD351_prediction = new EventSource(`http://${host}:34/get_prediction/D251/temperature`);
+        var eventSource_D351_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/D251/CO2`);
+        var eventSource_D351_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/D251/luminosite`);
+        var eventSource_D351_pc_prediction = new EventSource(`http://${host}:34/get_prediction/D251/humidite`);
+        var eventSource_D351_UV_prediction = new EventSource(`http://${host}:34/get_prediction/D251/UV`);
 
 
 
@@ -397,9 +419,24 @@
       }
     })
 
-    function add_Data_toGraph(eventSource, barChart,) {
+    function add_Data_toGraph(eventSource, barChart, eventSourcePredict) {
       var compt = 0
 
+      var values_predict
+      var data2 = []
+        eventSourcePredict.onmessage = function (event) {
+          data2 = JSON.parse(event.data.replace(/'/g, '"'));
+          values_predict = data2.map(item => item.value);
+
+          console.log(values_predict)
+
+          console.log(event.data)
+        // Mettre à jour le graphique après avoir reçu des données
+
+          // Traiter les données reçues
+
+
+        };
       eventSource.onmessage = function (event) {
         var data = JSON.parse(event.data);
 
@@ -410,36 +447,35 @@
 
 
 
-        if( data.length > 0)
-        {
+        if (data.length > 0) {
           capteur = data[0].entity;
 
           values = data.map(item => item.value);
           times = data.map(item => formatTime(item.time));
-          updateChart(barChart,values,times,capteur);
+          updateChart(barChart, values, times, capteur, values_predict);
           console.log(values)
           console.log(times)
           console.log(capteur)
 
         }
-        else
-        {
+        else {
           console.log('PAS DE DATA')
-          updateChart(barChart,[],[],'');
+          updateChart(barChart, [], [], '');
+          eventSource.close();
+
 
         }
-
-
-
-
 
 
 
         compt++;
         // Mettre à jour le graphique après avoir reçu des données
-        if (compt == 1) {
-          eventSource.close();
-        }
+        
+        
+
+
+
+
       };
     }
 
@@ -455,14 +491,51 @@
       var formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       return formattedTime;
     }
-    // Fonction pour mettre à jour le graphique avec les nouvelles données
-    function updateChart(barChart,values,times,capteur) {
-      barChart.data.datasets[0].label = capteur;
-      barChart.data.labels = times;
-      barChart.data.datasets[0].data = values;
-      barChart.update();
-      // Mettre à jour le graphique sans le recréer
+    function addMinutes(timeString, minutes) {
+      const [hours, minutesStr, seconds] = timeString.split(':').map(Number);
+
+      const date = new Date(2000, 0, 1, hours, minutesStr, seconds);
+      date.setMinutes(date.getMinutes() + minutes);
+
+      return date.toISOString().substr(11, 8);
     }
+    // Fonction pour mettre à jour le graphique avec les nouvelles données
+    function updateChart(barChart, values, times, capteur, values_predict) {
+      // Mettez à jour le label et les données du premier jeu de données
+      barChart.data.datasets[0].label = capteur;
+      const lastTime = times[times.length - 1];
+
+      // Ajouter 10 valeurs avec un écart de 5 minutes
+      for (let i = 1; i <= 10; i++) {
+        const newTime = addMinutes(lastTime, i * 5);
+        times.push(newTime);
+      }
+
+      // Mettre à jour les labels du graphique
+      barChart.data.labels = times;  
+      barChart.data.datasets[0].data = values;
+      console.log('------------------------------------------------------------------------------------------------')
+      console.log('-------------------------------------VALUES----------------------------------------------------------')
+
+      console.log(values)
+      console.log('-------------------------------------VALUESpred----------------------------------------------------------')
+      console.log(values_predict)
+      console.log('-------------------------------------time----------------------------------------------------------')
+
+      console.log(times)
+
+      // Vérifiez si le deuxième jeu de données existe
+      if (barChart.data.datasets.length > 1) {
+        // Mettez à jour les données du deuxième jeu de données (valeurs prédites)
+        barChart.data.datasets[1].data = values_predict;
+        barChart.data.datasets[1].label = 'Prediction';
+
+      }
+
+      // Mettez à jour le graphique
+      barChart.update();
+    }
+
 
 
 
