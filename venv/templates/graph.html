@@ -60,42 +60,42 @@
 
     <div class="grid grid-cols-2 gap-14 pr-5 fade-in" style="height: 80vh; overflow: auto;">
 
-      <div id="container" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
-        <div id="temperature" class=" w-full" style="height: 30vh;" ></div>
+        <div id="temperature" class=" w-full" style="height: 40vh;" ></div>
         <!-- <canvas  class="p-5 temperature" style="height: 28vh; width: 40vw;"></canvas> -->
       </div>
 
-      <div id="container" class="bg-gray-800 rounded " style="height:40vh ; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded " style="height:50vh ; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-        <div id="CO2" class=" w-full" style="height: 30vh;" ></div>
+        <div id="CO2" class=" w-full" style="height: 40vh;" ></div>
       </div>
 
-      <div id="container" class="bg-gray-800 rounded 0" style="height: 40vh; width: fit-content;">
+      <div id="container" class="bg-gray-800 rounded 0" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
 
-        <div id="Luminosité" class=" w-full" style="height: 30vh;" ></div>
+        <div id="Luminosité" class=" w-full" style="height: 40vh;" ></div>
       </div>
 
-      <div id="container_bruit" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
+      <div id="container_bruit" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
 
-        <div id="Bruit" class=" w-full" style="height: 30vh;" ></div>
+        <div id="Bruit" class=" w-full" style="height: 40vh;" ></div>
       </div>
-      <div id="container_humidite" class="bg-gray-800 rounded " style="height: 40vh; width: fit-content;">
+      <div id="container_humidite" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
 
-        <div id="humidite" class=" w-full" style="height: 30vh;" ></div>
+        <div id="humidite" class=" w-full" style="height: 40vh;" ></div>
       </div>
-      <div id="container_UV" class="bg-gray-800 rounded" style="height: 40vh; width: fit-content;">
+      <div id="container_UV" class="bg-gray-800 rounded" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
 
-        <div id="UV" class=" w-full" style="height: 30vh;" ></div>
+        <div id="UV" class=" w-full" style="height: 40vh;" ></div>
       </div>
-      <div id="container_µg" class="bg-gray-800 rounded" style="height: 40vh; width: fit-content;">
+      <div id="container_µg" class="bg-gray-800 rounded" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
 
-        <div id="µg" class=" w-full" style="height: 30vh;" ></div>
+        <div id="µg" class=" w-full" style="height: 40vh;" ></div>
       </div>
     </div>
   </div>
@@ -182,12 +182,21 @@
         trace.type = traceType;
       }
       var graph = Plotly.newPlot(TESTER, [trace], {
-        padding: { t: 5, l: 5, r: 5, b: 5 },
-        margin:{t:20},
+        margin:{t:40},
         animate: true, // Active l'animation
  // Ajoutez le padding en ajustant ces valeurs
         paper_bgcolor: 'rgb(45, 55, 72)',
-        plot_bgcolor: 'rgb(45, 55, 72)',  // Définir la couleur du fond
+        plot_bgcolor: 'rgb(45, 55, 72)',
+        showlegend: true,
+        legend: {
+          font: {
+            color: 'white' ,
+
+          },
+          x: 0.5, 
+          y: 1.5 
+        },
+  // Définir la couleur du fond
         xaxis: {
           tickfont: { color: 'white' }  // Couleur du texte pour l'axe x
         },
