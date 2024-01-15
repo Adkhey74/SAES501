@@ -27,11 +27,8 @@ def calculate_average(results):
     return average
 
 
-def build_query(bucket, room, measurement, start, exclude, end, last=False):
+def build_query(bucket, room, measurement, start, exclude, end,):
     date_start = get_date_n_minutes_later(start)
-
-    if last and start == 0:
-        date_start = "0122-09-13T22:13:20Z"
 
     if end == 0:
         query = f'from(bucket: "{bucket}") |> range(start: {date_start}) |> filter(fn: (r) => r["_measurement"] == "{measurement}") |> filter(fn: (r) => r["_field"] == "value") |> filter(fn: (r) => r["entity_id"] =~ /{room}/) '
@@ -42,9 +39,6 @@ def build_query(bucket, room, measurement, start, exclude, end, last=False):
     if exclude != "":
         query += f'|> filter(fn: (r) => r["entity_id"] !~ /{exclude}/)'
 
-    if last:
-        query += f'|> last()'
-
     return query
 
 
@@ -54,13 +48,13 @@ def get_date_n_minutes_later(minutes):
     formatted_date = date_n_minutes_later.strftime("%Y-%m-%dT%H:%M:%SZ")
     return formatted_date
 
-# return -1 si Exception
+# return -2 si Exception
+# return -1 si aucun changement
 # return 0 si comfort 
 # return 1 si incomfort
 # return 2 si danger
 def ppm_is_discomfort(client, org, bucket, room):
     query = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0)
-    query_last_data = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0, last=True)
 
     discomfort = 0
     try:
@@ -72,25 +66,19 @@ def ppm_is_discomfort(client, org, bucket, room):
             elif moy >= PPM_THRESHOLD_INCOMFORT:
                 discomfort = 1
         else:
-            result_last_data = client.query_api().query(org=org, query=query_last_data)
-            moy_last_data = calculate_average(result_last_data)
-            if moy_last_data is not False:
-                if moy >= PPM_THRESHOLD_DANGER:
-                    discomfort = 2
-                elif moy >= PPM_THRESHOLD_INCOMFORT:
-                    discomfort = 1
+            discomfort = -1
 
     except Exception as e:
-        discomfort = -1
+        discomfort = -2
     return discomfort
 
-# return -1 si Exception
+# return -2 si Exception
+# return -1 si aucun changement
 # return 0 si comfort 
 # return 1 si incomfort
 # return 2 si danger
 def dba_is_discomfort(client, org, bucket, room):
     query = build_query(bucket=bucket, room=room, measurement="dBA", start=5, exclude="", end=0)
-    query_last_data = build_query(bucket=bucket, room=room, measurement="dBA", start=5, exclude="", end=0, last=True)
 
     discomfort = 0
     try:
@@ -102,15 +90,9 @@ def dba_is_discomfort(client, org, bucket, room):
             elif moy >= DBA_THRESHOLD_INCOMFORT:
                 discomfort = 1
         else:
-            result_last_data = client.query_api().query(org=org, query=query_last_data)
-            moy_last_data = calculate_average(result_last_data)
-            if moy_last_data is not False:
-                if moy >= DBA_THRESHOLD_DANGER:
-                    discomfort = 2
-                elif moy >= DBA_THRESHOLD_INCOMFORT:
-                    discomfort = 1
+            discomfort = -1
     except Exception as e:
-        discomfort = -1
+        discomfort = -2
     return discomfort
 
 # return -2 si Exception
@@ -118,13 +100,13 @@ def dba_is_discomfort(client, org, bucket, room):
 # return 0 si fenêtre ouverte 
 # return 1 si fenêtre fermée
 def window_close(client, org, bucket, room, last_data=0):
-    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0, last=True)
-    query_10_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=10, exclude="dew", end=5, last=True)
-    query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5, last=True)
+    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0)
+    query_10_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=10, exclude="dew", end=5)
+    query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5)
 
-    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0, last=True)
-    query_10_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=10, exclude="compound", end=5, last=True)
-    query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5, last=True)
+    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0)
+    query_10_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=10, exclude="compound", end=5)
+    query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5)
 
     window_status = 2
     try:
@@ -177,14 +159,14 @@ def window_close(client, org, bucket, room, last_data=0):
         window_status = -2
     return window_status
 
-# return -1 si Exception
+# return -2 si Exception
+# return -1 si aucun changement
 # return 0 si mouvement 
 # return 1 si aucun mouvement
 def movement_here(client, org, bucket, room):
     date_minus_5_minutes = get_date_n_minutes_later(5)
 
     query = f'from(bucket: "{bucket}") |> range(start: {date_minus_5_minutes}) |> filter(fn: (r) => r["_measurement"] =~ /{room}/) |> filter(fn: (r) => r["_measurement"] =~ /motion/) |> filter(fn: (r) => r["_field"] == "value")  |> filter(fn: (r) => r["domain"] == "binary_sensor")'
-    query_last_data = f'from(bucket: "{bucket}") |> range(start: {date_minus_5_minutes}) |> filter(fn: (r) => r["_measurement"] =~ /{room}/) |> filter(fn: (r) => r["_measurement"] =~ /motion/) |> filter(fn: (r) => r["_field"] == "value")  |> filter(fn: (r) => r["domain"] == "binary_sensor") |> last()'
 
     here = 2
     try:
@@ -194,16 +176,12 @@ def movement_here(client, org, bucket, room):
             if moy >= 0:
                 here = 0
         else:
-            result_last_data = client.query_api().query(org=org, query=query_last_data)
-            moy_last_data = calculate_average(result_last_data)
-            if moy_last_data is not False:
-                if moy_last_data >= 0:
-                    here = 0
+            here = -1
     except Exception as e:
-        here = -1
+        here = -2
     return here
 
-# return -1 si Exception
+# return -2 si Exception
 # return 0 si quelqu'un
 # return 1 si personne
 def presence_d351(client, org, bucket, last_data=0):
@@ -247,5 +225,5 @@ def presence_d351(client, org, bucket, last_data=0):
             detect_status = 0
 
     except Exception as e:
-        detect_status = -1
+        detect_status = -2
     return detect_status

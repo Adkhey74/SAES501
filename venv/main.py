@@ -42,28 +42,48 @@ def graph():
     # Par exemple, rendre un modèle avec render_template
     return render_template('graph.html', active_page='Graph')
 
-last_data_by_room = {"d251":0,"d351":0,"d360":0}
+last_Ppm_data_by_room = {"d251":0,"d351":0,"d360":0}
+last_Dba_data_by_room = {"d251":0,"d351":0,"d360":0}
+last_Here_data_by_room = {"d251":2,"d351":2,"d360":2}
+last_window_data_by_room = {"d251":2,"d351":2,"d360":2}
+last_presenceD351_data_by_room = 2
 client = InfluxDBClient(url=url, token=token, org=org, timeout=20000)
 @app.route('/get_data/<room>')
 def get_comfort(room):
     global client
-    global last_data_by_room
+    global last_Ppm_data_by_room
+    global last_Dba_data_by_room
+    global last_Here_data_by_room
+    global last_window_data_by_room
+    global last_presenceD351_data_by_room
     room = room.lower()
-    last_data = last_data_by_room[room]
+    last_data_window = last_window_data_by_room[room]
     comfortPpm = ppm_is_discomfort(client,org,bucket,room)
     comfortDba = dba_is_discomfort(client,org,bucket,room)
     comfortHere = movement_here(client,org,bucket,room)
-    comfortwindow = window_close(client,org,bucket,room,last_data)
+    comfortwindow = window_close(client,org,bucket,room,last_data_window)
     
     presenceD351 = 0
     if room == "d351":
         presenceD351 = presence_d351(client,org,bucket)
 
-    if comfortwindow >= 0:
-        last_data_by_room[room] = comfortwindow
+    if comfortPpm >= 0:
+        last_Ppm_data_by_room[room] = comfortPpm
 
-    return jsonify(comfortPpm=comfortPpm,comfortDba=comfortDba,
-                   comfortHere=comfortHere,comfortwindow=comfortwindow,presenceD351=presenceD351)
+    if comfortDba >= 0:
+        last_Dba_data_by_room[room] = comfortDba
+    
+    if comfortHere >= 0:
+        last_Here_data_by_room[room] = comfortHere
+
+    if comfortwindow >= 0:
+        last_window_data_by_room[room] = comfortwindow
+
+    if presenceD351 >= 0:
+        last_presenceD351_data_by_room = presenceD351
+
+    return jsonify(comfortPpm=last_Ppm_data_by_room[room],comfortDba=last_Dba_data_by_room[room],
+                   comfortHere=last_Here_data_by_room[room],comfortwindow=last_window_data_by_room[room],presenceD351=last_presenceD351_data_by_room)
 
 
 @app.route('/get_data/<salle>/<unite>/<temps>')
