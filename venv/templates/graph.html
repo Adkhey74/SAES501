@@ -60,39 +60,39 @@
       <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
 
-        <canvas id="" class="p-5 temperature" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 temperature" style="height: 38vh; width: 40vw;"></canvas>
       </div>
 
       <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-        <canvas id="" class="p-5 CO2" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 CO2" style="height: 38vh; width: 40vw;"></canvas>
       </div>
 
       <div id="container" class="bg-gray-800 rounded 0" style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
 
-        <canvas id="" class="p-5 Luminosité" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 Luminosité" style="height: 38vh; width: 40vw;"></canvas>
       </div>
 
       <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
 
-        <canvas id="" class="p-5 Bruit" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 Bruit" style="height: 38vh; width: 40vw;"></canvas>
       </div>
       <div id="container_humidite" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
 
-        <canvas id="" class="p-5 humidite" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 humidite" style="height: 38vh; width: 40vw;"></canvas>
       </div>
       <div id="container_UV" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
 
-        <canvas id="" class="p-5 UV" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 UV" style="height: 38vh; width: 40vw;"></canvas>
       </div>
       <div id="container_µg" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
 
-        <canvas id="" class="p-5 µg" style="height: 28vh; width: 40vw;"></canvas>
+        <canvas id="" class="p-5 µg" style="height: 38vh; width: 40vw;"></canvas>
       </div>
     </div>
   </div>
@@ -117,6 +117,8 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -136,9 +138,26 @@
           }]
         },
         options: {
+          
           responsive: true,
-
-          scales: {
+          plugins: {
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true,
+                },
+                mode: 'xy',
+              },
+              pan: {
+                enabled: true,
+                mode: 'xy',
+              },
+            },
+          },
+             scales: {
             y: {
               ticks: {
                 color: 'white'
