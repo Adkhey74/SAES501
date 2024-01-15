@@ -173,7 +173,9 @@
         x: [],
         y: [],
         line: { color: color },
-        mode: 'lines+markers'
+        mode: 'lines+markers',
+        name: 'Nouveau Texte'  // Remplacez 'Nouveau Texte' par le texte que vous souhaitez afficher dans la légende
+
         
       };
       var traceType = 'scatter';
@@ -193,15 +195,18 @@
             color: 'white' ,
 
           },
-          x: 0.5, 
+          x: 0.35, 
           y: 1.5 
         },
   // Définir la couleur du fond
         xaxis: {
-          tickfont: { color: 'white' }  // Couleur du texte pour l'axe x
+          tickfont: { color: 'white' },
+          showgrid: true, 
         },
         yaxis: {
-          tickfont: { color: 'white' }  // Couleur du texte pour l'axe y
+          tickfont: { color: 'white' },  // Couleur du texte pour l'axe y
+          showgrid: true, 
+
         }
       });
 
@@ -219,7 +224,7 @@
       barChart.update();
       // Mettre à jour le graphique sans le recréer
     }
-    function updateChart2(barChart, newDataX, newDataY) {
+    function updateChart2(barChart, newDataX, newDataY,capteur) {
       console.log('datax : ', newDataX, '    datay : ', newDataY);
       console.log(barChart);
       Plotly.animate(barChart, {
@@ -233,6 +238,8 @@
       // Mettre à jour les données de la première trace (indice 0) dans barChart, pas dans une variable appelée 'graph'
       barChart.data[0].x = newDataX;
       barChart.data[0].y = newDataY;
+      barChart.data[0].name = capteur;
+
 
       // Redessiner le graphique
       Plotly.redraw(barChart);
@@ -502,7 +509,7 @@
           var nouvellesDonneesY = values;
 
           // Appelez la fonction de mise à jour avec les nouvelles données
-          updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY);
+          updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY,capteur);
         });
         
         if (compt == 1) {
