@@ -9,27 +9,58 @@ DBA_THRESHOLD_INCOMFORT = 70
 DBA_THRESHOLD_DANGER = 80
 
 # Window Open
-PPM_WINDOW_DIFFERENCE = 500
-DEGREE_WINDOW_DIFFERENCE = 0.5
+PPM_WINDOW_DIFFERENCE = 400
+DEGREE_WINDOW_DIFFERENCE = 0.4
 
 # Presence D351
 DBA_PRESENCE_THRESHOLD = 50
 
+from sklearn.decomposition import PCA
+from scipy.ndimage import uniform_filter
 
 def calculate_average(results):
+    # Initialiser la somme et le nombre d'enregistrements
     total = 0
     n = 0
+    
+    # Préparer les données pour l'ACP
+    data_for_pca = []
     for table in results:
         for record in table.records:
-            n +=1
-            total += record.get_value()
+            data_for_pca.append(record.get_value())
+
+    # Appliquer l'ACP
+    pca = PCA(n_components=1)  
+    transformed_data = pca.fit_transform(data_for_pca)
+
+    smoothed_data = uniform_filter(transformed_data, size=3) 
+    
+    # Calculer la moyenne des données transformées
+    for value in smoothed_data:
+        n += 1
+        total += value
+
+    # 6. Calculer la moyenne finale
     average = False
-    if len(results) > 0:
+    if n > 0:
         average = total / n
+
     return average
 
+# def calculate_average(results):
+#     total = 0
+#     n = 0
+#     for table in results:
+#         for record in table.records:
+#             n +=1
+#             total += record.get_value()
+#     average = False
+#     if len(results) > 0:
+#         average = total / n
+#     return average
 
-def build_query(bucket, room, measurement, start, exclude, end,):
+
+def build_query(bucket, room, measurement, start, exclude, end,last=False):
     date_start = get_date_n_minutes_later(start)
 
     if end == 0:
@@ -40,7 +71,8 @@ def build_query(bucket, room, measurement, start, exclude, end,):
 
     if exclude != "":
         query += f'|> filter(fn: (r) => r["entity_id"] !~ /{exclude}/)'
-
+    if last:
+        query += f'|> last()'
     return query
 
 
@@ -104,13 +136,13 @@ def dba_is_discomfort(client, org, bucket, room):
 # return 0 si fenêtre ouverte 
 # return 1 si fenêtre fermée
 def window_close(client, org, bucket, room, last_data=0):
-    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0)
+    query_5_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=5, exclude="dew", end=0,last=True)
     query_10_minutes_degree = build_query(bucket=bucket, room=room, measurement="°C", start=10, exclude="dew", end=5)
-    query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5)
+    # query_last_degree = build_query(bucket=bucket, room=room, measurement="°C", start=0, exclude="dew", end=5)
 
-    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0)
+    query_5_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=5, exclude="compound", end=0, last=True)
     query_10_minutes_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=10, exclude="compound", end=5)
-    query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5)
+    # query_last_ppm = build_query(bucket=bucket, room=room, measurement="ppm", start=0, exclude="compound", end=5)
 
     window_status = 2
     try:
