@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration</title>
+    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+
+    {% include 'link.html' %}
+
+
+</head>
+
+<body class="bg-gray-900">
+
+    {% include 'navbar.html' %}
+    <div id="particles-js" style="height: 93vh" class="">
+
+            <div class="flex justify-end  align-items-start absolute " style="height: 93vh; left: 69%;">
+
+
+                <div class="input-group flex-nowrap mt-2" style="width: 30vw;">
+                    <span class="input-group-text" id="addon-wrapping"><i class="bi bi-building"></i></span>
+                    <select class="form-select" name="" id="">
+                        <option value="D250">D250</option>
+                        <option value="D251">D251</option>
+                        <option value="D252">D252</option>
+
+
+                    </select>
+                </div>
+
+            </div>
+            <div id="container" class="bg-gray-800 rounded absolute top-40 right-56" style="height: fit-content; width: fit-content;">
+                <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
+            </div>
+            <div id="container" class="bg-gray-800 rounded absolute bottom-28 right-56" style="height: fit-content; width: fit-content;">
+                <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
+            </div>
+            <div id="container" class="bg-gray-800 rounded absolute top-40 left-56" style="height: fit-content; width: fit-content;">
+                <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
+            </div>
+            <div id="container" class="bg-gray-800 rounded absolute bottom-28 left-56" style="height: fit-content; width: fit-content;">
+                <canvas id="" class=" p-5 barCanvas" style="height: 40vh; width: 40vw;"></canvas>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    {% include 'link_js.html' %}
+
+
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.barCanvas').each(function(index, element) {
+            const barChart = new Chart(element, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: 'white' // Définir la couleur du texte de l'axe des x
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white' // Définir la couleur du texte de l'axe des x
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph</title>
+  <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+
+  {% include 'link.html' %}
+
+
+</head>
+
+<body class="bg-gray-900">
+
+  {% include 'navbar.html' %}
+  <div id="particles-js" style="height: 185vh;width: 100vw;z-index: -50; position: fixed; top: 0;">
+
+
+  </div>
+
+  <div class="justify-center flex mb-5 mt-5 fade-in">
+    <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-building"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
+        <option value="D251">D251</option>
+        <option value="D351">D351</option>
+        <option value="D360">D360</option>
+
+
+
+      </select>
+
+    </div>
+    <div class="input-group flex-nowrap mt-2 ml-2 " style="width: 10vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-clock-history"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
+        <option value="1h">1h</option>
+        <option value="3h">3h</option>
+        <option value="6h">6h</option>
+        <option value="12h">12h</option>
+        <option value="24h">24h</option>
+        <option value="2d">2d</option>
+
+
+
+
+
+      </select>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center  align-items-start   ">
+
+    <div class="grid grid-cols-2 gap-14 pr-5 fade-in" style="height: 80vh; overflow: auto;">
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
+
+        <canvas id="" class="p-5 temperature" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
+        <canvas id="" class="p-5 CO2" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container" class="bg-gray-800 rounded 0" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
+
+        <canvas id="" class="p-5 Luminosité" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+
+      <div id="container_bruit" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
+
+        <canvas id="" class="p-5 Bruit" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+      <div id="container_humidite" class="bg-gray-800 rounded " style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
+
+        <canvas id="" class="p-5 humidite" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+      <div id="container_UV" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
+
+        <canvas id="" class="p-5 UV" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+      <div id="container_µg" class="bg-gray-800 rounded" style="height: fit-content; width: fit-content;">
+        <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
+
+        <canvas id="" class="p-5 µg" style="height: 38vh; width: 40vw;"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+
+
+  {% include 'link_js.html' %}
+
+
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    var predHumidity = {{ predHumidity | tojson | safe
+  }};
+  var predLum = {{ predLum | tojson | safe }};
+  var predBruit = {{ predBruit | tojson | safe }};
+  var predUv = {{ predUv | tojson | safe }};
+  var host = window.location.hostname;
+  function create_graph(color, classgraph) {
+    var name = new Chart($(classgraph), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          data: [],
+          borderWidth: 2,
+          borderColor: color,
+          backgroundColor: color
+
+        }]
+      },
+      options: {
+
+        responsive: true,
+        plugins: {
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+              pinch: {
+                enabled: true,
+              },
+              mode: 'xy',
+            },
+            pan: {
+              enabled: true,
+              mode: 'xy',
+            },
+          },
+        },
+        scales: {
+          y: {
+            ticks: {
+              color: 'white'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'white'
+            }
+          }
+        },
+        legend: {
+          labels: {
+            fontColor: 'white' // Définir la couleur du texte de la légende
+          }
+        }
+      }
+    });
+
+    return name
+  }
+
+
+  var barChartTemperature = create_graph('rgb(173, 216, 230)', '.temperature')
+  var barChartCO2 = create_graph('rgb(255, 255, 240)', '.CO2')
+  var barChartHumidite = create_graph('white', '.humidite')
+  var barChartUV = create_graph('purple', '.UV')
+  var barChartLuminosité = create_graph('rgb(255, 182, 193)', '.Luminosité')
+  var barChartBruit = create_graph('rgb(144, 238, 144)', '.Bruit')
+  var barChartµg = create_graph('rgb(144, 238, 144)', '.µg')
+
+  // Function to add predicted data to the graph
+  function addPredictedData(barChart, predictedData, color) {
+    // Assuming the last label is in the correct date format
+    const lastLabel = barChart.data.labels[barChart.data.labels.length - 1];
+    const lastTime = lastLabel ? new Date(lastLabel) : new Date();
+    const newLabels = [];
+    const newData = [];
+
+    for (let i = 0; i < predictedData.length; i++) {
+      lastTime.setMinutes(lastTime.getMinutes() + 3); // Increment by 3 minutes
+      newLabels.push(formatTime(lastTime)); // Assuming you have a function to format the time correctly
+      newData.push(predictedData[i]);
+    }
+
+    // Add the new dataset for the predicted data
+    barChart.data.labels = barChart.data.labels.concat(newLabels);
+    barChart.data.datasets.push({
+      data: newData,
+      borderColor: color,
+      backgroundColor: color,
+      borderWidth: 2,
+      label: 'Prediction' // Add a label for the prediction dataset
+    });
+    barChart.update();
+  }
+
+
+  // Add predicted data to the appropriate graphs
+  addPredictedData(barChartHumidite, predHumidity, 'rgba(0, 255, 0, 0.5)'); // Example color for humidity
+  addPredictedData(barChartLuminosité, predLum, 'rgba(255, 255, 0, 0.5)'); // Example color for luminosity
+  addPredictedData(barChartBruit, predBruit, 'rgba(255, 0, 0, 0.5)'); // Example color for noise
+  addPredictedData(barChartUV, predUv, 'rgba(0, 0, 255, 0.5)');
+
+
+  // Initialiser le graphique une seule fois
+
+
+
+
+
+  var temps = $('#temps').val()
+
+  var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
+  var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
+  var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
+  var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
+  var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+
+
+
+  $('#container_bruit').hide();
+  $('#container_µg').hide();
+
+  add_Data_toGraph(eventSourceD251, barChartTemperature)
+  add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+  add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+  add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+  add_Data_toGraph(eventSource_D251_UV, barChartUV)
+
+
+
+
+
+  $('#salle').change(() => {
+    var temps = $('#temps').val()
+
+    if ($('#salle').val() == 'D251') {
+      var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
+      var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
+      var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
+      var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
+      var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+
+
+      $('#container_bruit').hide();
+      $('#container_µg').hide();
+
+
+
+      add_Data_toGraph(eventSourceD251, barChartTemperature)
+      add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+      add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D251_UV, barChartUV)
+
+
+
+
+    }
+    if ($('#salle').val() == 'D351') {
+      var eventSourceD351 = new EventSource(`http://${host}:34/get_data/d351/temperature/${temps}`);
+      var eventSource_D351_CO2 = new EventSource(`http://${host}:34/get_data/d351/CO2/${temps}`);
+      var eventSource_D351_Lx = new EventSource(`http://${host}:34/get_data/d351/luminosite/${temps}`);
+      var eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit/${temps}`);
+      var eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite/${temps}`);
+      var eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV/${temps}`);
+      var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+
+
+
+
+      $('#container_bruit').show();
+      $('#container_UV').show();
+      $('#container_µg').show();
+
+
+
+      add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
+      add_Data_toGraph(eventSourceD351, barChartTemperature)
+      add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D351_db, barChartBruit)
+      add_Data_toGraph(eventSource_D351_UV, barChartUV)
+      add_Data_toGraph(eventSource_D351_µg, barChartµg)
+
+
+
+
+
+
+    }
+    if ($('#salle').val() == 'D360') {
+
+      var eventSourceD360 = new EventSource(`http://${host}:34/get_data/d360/temperature/${temps}`);
+      var eventSource_D360_CO2 = new EventSource(`http://${host}:34/get_data/d360/CO2/${temps}`);
+      var eventSource_D360_Lx = new EventSource(`http://${host}:34/get_data/d360/luminosite/${temps}`);
+      var eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite/${temps}`);
+      var eventSource_D360_UV = new EventSource(`http://${host}:34/get_data/d360/UV/${temps}`);
+
+
+
+
+
+      $('#container_bruit').hide();
+      $('#container_µg').hide();
+
+
+
+      add_Data_toGraph(eventSourceD360, barChartCO2)
+      add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
+      add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D360_UV, barChartUV)
+
+
+
+
+
+    }
+  })
+
+
+  $('#temps').change(() => {
+    var temps = $('#temps').val()
+    if ($('#salle').val() == 'D251') {
+      var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
+      var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
+      var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
+      var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
+      var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+
+
+      $('#container_bruit').hide();
+      $('#container_µg').hide();
+
+
+
+      add_Data_toGraph(eventSourceD251, barChartTemperature)
+      add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+      add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D251_UV, barChartUV)
+
+
+
+
+    }
+    if ($('#salle').val() == 'D351') {
+      var eventSourceD351 = new EventSource(`http://${host}:34/get_data/d351/temperature/${temps}`);
+      var eventSource_D351_CO2 = new EventSource(`http://${host}:34/get_data/d351/CO2/${temps}`);
+      var eventSource_D351_Lx = new EventSource(`http://${host}:34/get_data/d351/luminosite/${temps}`);
+      var eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit/${temps}`);
+      var eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite/${temps}`);
+      var eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV/${temps}`);
+      var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+
+
+
+
+      $('#container_bruit').show();
+      $('#container_UV').show();
+      $('#container_µg').show();
+
+
+
+      add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
+      add_Data_toGraph(eventSourceD351, barChartTemperature)
+      add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D351_db, barChartBruit)
+      add_Data_toGraph(eventSource_D351_UV, barChartUV)
+      add_Data_toGraph(eventSource_D351_µg, barChartµg)
+
+
+
+
+
+
+    }
+    if ($('#salle').val() == 'D360') {
+
+      var eventSourceD360 = new EventSource(`http://${host}:34/get_data/d360/temperature/${temps}`);
+      var eventSource_D360_CO2 = new EventSource(`http://${host}:34/get_data/d360/CO2/${temps}`);
+      var eventSource_D360_Lx = new EventSource(`http://${host}:34/get_data/d360/luminosite/${temps}`);
+      var eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite/${temps}`);
+      var eventSource_D360_UV = new EventSource(`http://${host}:34/get_data/d360/UV/${temps}`);
+
+
+
+
+
+      $('#container_bruit').hide();
+      $('#container_µg').hide();
+
+
+
+      add_Data_toGraph(eventSourceD360, barChartCO2)
+      add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
+      add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
+      add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
+      add_Data_toGraph(eventSource_D360_UV, barChartUV)
+
+
+
+
+
+    }
+  })
+
+  function add_Data_toGraph(eventSource, barChart,) {
+    var compt = 0
+
+    eventSource.onmessage = function (event) {
+      var data = JSON.parse(event.data);
+
+
+
+      // Traiter les données reçues
+      console.log(data)
+
+
+
+      if (data.length > 0) {
+        capteur = data[0].entity;
+
+        values = data.map(item => item.value);
+        times = data.map(item => formatTime(item.time));
+        updateChart(barChart, values, times, capteur);
+        console.log(values)
+        console.log(times)
+        console.log(capteur)
+
+      }
+      else {
+        console.log('PAS DE DATA')
+        updateChart(barChart, [], [], '');
+
+      }
+
+
+
+
+
+
+
+      compt++;
+      // Mettre à jour le graphique après avoir reçu des données
+      if (compt == 1) {
+        eventSource.close();
+      }
+    };
+  }
+
+
+
+  function formatTime(dateString) {
+    var date = new Date(dateString);
+    var hours = date.getUTCHours();
+    var minutes = date.getUTCMinutes();
+    var seconds = date.getUTCSeconds();
+
+    // Formater en HH:mm:ss
+    var formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return formattedTime;
+  }
+  // Fonction pour mettre à jour le graphique avec les nouvelles données
+  function updateChart(barChart, values, times, capteur) {
+    barChart.data.datasets[0].label = capteur;
+    barChart.data.labels = times;
+    barChart.data.datasets[0].data = values;
+    barChart.update();
+    // Mettre à jour le graphique sans le recréer
+  }
+
+
+
+  });
+
+
+
+</script>
+
+</html>

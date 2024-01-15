@@ -1,0 +1,106 @@
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceuil</title>
+    <link rel="icon" href="../static/house-solid.svg" type="image/x-icon">
+
+    {% include 'link.html' %}
+
+
+  </head>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Roboto&family=Roboto+Condensed:wght@300&display=swap');
+      h1,p,span,h3 {
+        font-family: 'Exo 2', sans-serif;
+        
+    }
+
+  </style>
+  <body class="bg-gray-900">
+
+    {% include 'navbar.html' %}
+    <div id="particles-js" style="height: 185vh;width: 100vw;z-index: -50; position: fixed; top: 0;">
+
+
+    </div>
+      <div class="flex justify-center  " style="height: 93vh; left: 25%;">
+
+        <div class="flex justify-end items-center fade-in" style="width: 50vw; height: 80vh;">
+          <div class=" 	rounded border-hidden flex justify-center align-items-center" style="width:50vw; height: 30vh;  /* Remplacez les valeurs par celles de votre choix */
+          ">
+            <div class="grid grid-cols-1">
+              <h1 class="ml11" style="width: 28vw;">
+                <span class="text-wrapper text-white">
+                    <span class="line line1"></span>
+                    <h1 class="text-white letters" style="font-size: 150px;">SAES501</h1>
+                    <h3 class="text-gray-600 letters" style="font-size: 20px;"> Dev by Samuel, Dimitri, Alain, Enzo, Adil</h3>
+
+
+                </span>
+            </h1>
+            </div>
+
+          </div>
+          
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    {% include 'link_js.html' %}
+
+
+
+
+  </body>
+<script>
+// Sélectionnez tous les éléments correspondant à '.ml11 .letters' et convertissez-les en tableau
+var textWrappers = Array.from(document.querySelectorAll('.ml11 .letters'));
+
+// Appliquez la modification à tous les éléments en même temps
+textWrappers.forEach(function(textWrapper) {
+  // Modifiez le contenu HTML de chaque élément
+  textWrapper.innerHTML = textWrapper.textContent.replace(/([^\x00-\x80]|\w|,)/g, "<span class='letter'>$&</span>");
+});
+
+anime.timeline({ loop: false })
+  .add({
+    targets: '.ml11 .line',
+    scaleY: [0, 1],
+    opacity: [0.5, 1],
+    easing: "easeOutExpo",
+    duration: 700
+  })
+  .add({
+    targets: '.ml11 .line',
+    translateX: [0, document.querySelector('.ml11 .letters').getBoundingClientRect().width + 10],
+    easing: "easeOutExpo",
+    duration: 700,
+    delay: 100
+  })
+  .add({
+    targets: '.ml11 .letter',
+    opacity: [0, 1],
+    easing: "easeOutExpo",
+    duration: 600,
+    offset: '-=775',
+    delay: (el, i) => 34 * (i + 1),
+
+  })
+  .add({
+    targets: '.ml11',
+    duration: 1000,
+    easing: "easeOutExpo",
+    delay: 1000
+  });
+
+</script>
+  </html>

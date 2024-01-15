@@ -1,0 +1,130 @@
+
+
+
+<div class="fixed top-2 left-2">
+  <button id="btn-1"  class="btn-menu text-gray-500 text-6xl"><i class="bi bi-list"></i></button>
+</div>
+<div id="menu" class="navbar  test2 bg-black/40 backdrop-blur-xl   w-fit fixed top-0 items-start   z-50 border-bottom border-body" data-bs-theme="dark" style="height: 100vh; width: 100vw;left: -100vw; ">
+  <ul class=" fixed  " >
+    
+    <li class="nav-item  ">
+
+      <button class=" btn-menu text-gray-400 text-6xl"><i class="bi bi-list"></i></button>
+
+    </li>
+
+  </ul>
+  <div class="flex justify-center items-center" style="width: 100vw; height: 80vh;">
+      <ul class="grid grid-cols-3 gap-12" id="menu"> 
+
+        <li class=" place-self-center">
+          <a href="{{url_for('home')}}"
+          class="text-6xl	  font-bold   {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-400 hover:text-gray-300 {% endif %}"><i
+            class="bi bi-house-fill"></i> Home</a>
+        </li>
+        <li class="{% if active_page == 'Detection' %} {% endif %} place-self-center" >
+          <a href="{{url_for('detection')}}"
+          class="text-6xl	  font-bold  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-400 hover:text-gray-300 {% endif %}"><i
+            class="bi bi-thermometer-half"></i> Détéction inconfort</a>
+        </li>
+        <li class="place-self-center">
+          <a href="{{url_for('graph')}}"
+          class="text-6xl	 font-bold   {% if active_page == 'Graph' %}text-white rounded {% else %} text-gray-400 hover:text-gray-300 {% endif %}"><i
+            class="bi bi-graph-up"></i> Dashboard</a>
+        </li>
+
+    
+    
+    
+      </ul>
+    </div>
+
+    <img src="../static/media/iut_logo.png" class="fixed bottom-2" alt="" style="width: 10vw;">
+
+  </div>
+
+
+    <!-- <ul class="nav nav-pills mb-sm-auto align-items-center align-items-sm-end " id="menu">
+
+      <li class="nav-item  mt-2 mb-2 mr-4 ">
+        <a href="{{url_for('connexion')}}"
+        class="text-2xl	 m-0 font-bold text-gray-900 {% if active_page == 'Connexion' %}bg-gray-900 rounded p-2 text-white{% endif %}"><i class="bi bi-person-circle"></i></a>
+      </li>
+
+    </ul> -->
+
+</div> 
+
+
+
+<script>
+  $('.btn-menu').click(()=>{ 
+    $('#menu').toggleClass('test')
+    anime({
+      targets: '.test',
+      translateX: '100vw',
+      easing: 'linear',
+
+      duration:500
+
+
+
+    });
+    $('#menu').toggleClass('test2')
+
+    anime({
+      targets: '.test2',
+      translateX: '-100vw',
+      easing: 'linear',
+
+      duration:500
+      
+
+
+    });
+
+  })
+
+
+</script>
+
+
+
+
+<style>
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  z-index: 1000;
+  text-align: center;
+  margin-top: 5vh;
+}
+
+.flash-message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid transparent;
+  adius: 5px;
+  color: #fff;
+}
+
+.flash-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.flash-error {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.flash-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+</style>
