@@ -22,10 +22,10 @@
           class="text-6xl	  font-bold   {% if active_page == 'Home' %}text-white rounded {% else %} text-gray-400 hover:text-gray-300 {% endif %}"><i
             class="bi bi-house-fill"></i> Home</a>
         </li>
-        <li class="{% if active_page == 'Detection' %} {% endif %} place-self-center" >
+        <li class="{% if active_page == 'Detection' %} {% endif %} place-self-center" style="width: 35vw;">
           <a href="{{url_for('detection')}}"
           class="text-6xl	  font-bold  {% if active_page == 'Detection' %} text-white rounded {% else %} text-gray-400 hover:text-gray-300 {% endif %}"><i
-            class="bi bi-thermometer-half"></i> inconfort Detection </a>
+            class="bi bi-thermometer-half"></i> discomfort detection </a>
         </li>
         <li class="place-self-center">
           <a href="{{url_for('graph')}}"
