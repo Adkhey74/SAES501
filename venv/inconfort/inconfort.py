@@ -18,12 +18,14 @@ DBA_PRESENCE_THRESHOLD = 50
 
 def calculate_average(results):
     total = 0
+    n = 0
     for table in results:
         for record in table.records:
+            n +=1
             total += record.get_value()
     average = False
     if len(results) > 0:
-        average = total / len(results)
+        average = total / n
     return average
 
 
@@ -60,11 +62,13 @@ def ppm_is_discomfort(client, org, bucket, room):
     try:
         result = client.query_api().query(org=org, query=query)
         moy = calculate_average(result)
+        # print(moy)
         if moy is not False:
             if moy >= PPM_THRESHOLD_DANGER:
                 discomfort = 2
             elif moy >= PPM_THRESHOLD_INCOMFORT:
                 discomfort = 1
+            # print(discomfort)
         else:
             discomfort = -1
 
