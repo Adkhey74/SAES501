@@ -15,18 +15,49 @@ DEGREE_WINDOW_DIFFERENCE = 0.4
 # Presence D351
 DBA_PRESENCE_THRESHOLD = 50
 
+from sklearn.decomposition import PCA
+from scipy.ndimage import uniform_filter
 
 def calculate_average(results):
+    # Initialiser la somme et le nombre d'enregistrements
     total = 0
     n = 0
+    
+    # Préparer les données pour l'ACP
+    data_for_pca = []
     for table in results:
         for record in table.records:
-            n +=1
-            total += record.get_value()
+            data_for_pca.append(record.get_value())
+
+    # Appliquer l'ACP
+    pca = PCA(n_components=1)  
+    transformed_data = pca.fit_transform(data_for_pca)
+
+    smoothed_data = uniform_filter(transformed_data, size=3) 
+    
+    # Calculer la moyenne des données transformées
+    for value in smoothed_data:
+        n += 1
+        total += value
+
+    # 6. Calculer la moyenne finale
     average = False
-    if len(results) > 0:
+    if n > 0:
         average = total / n
+
     return average
+
+# def calculate_average(results):
+#     total = 0
+#     n = 0
+#     for table in results:
+#         for record in table.records:
+#             n +=1
+#             total += record.get_value()
+#     average = False
+#     if len(results) > 0:
+#         average = total / n
+#     return average
 
 
 def build_query(bucket, room, measurement, start, exclude, end,last=False):
