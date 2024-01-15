@@ -42,7 +42,7 @@
         <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
           <option value="1h">1h</option>
           <option value="3h">3h</option>
-          <option value="6h">6h</option>
+          <option value="6h" selected>6h</option>
           <option value="12h">12h</option>
           <option value="24h">24h</option>
           <option value="2d">2d</option>
@@ -485,32 +485,52 @@
         // Traiter les données reçues
         console.log(data)
 
-        console.log(data[0])
-        values = data.map(item => item.value);
-        times = data.map(item => formatTime(item.time));
-        capteur = data[0].entity;
+
+        if( data.length > 0)
+        {
+          console.log(data[0])
+          values = data.map(item => item.value);
+          times = data.map(item => formatTime(item.time));
+          capteur = data[0].entity;
 
 
-        console.log(values)
-        console.log(times)
-        console.log(capteur)
+          console.log(values)
+          console.log(times)
+          console.log(capteur)
+          // Mettre à jour le graphique après avoir reçu des données
+          // updateChart(barChart);
+          extractPromiseValue(barChart).then(resolvedValue => {
+            legraph = resolvedValue;
+
+            // Supposons que vous ayez de nouvelles données
+            var nouvellesDonneesX = times;
+            var nouvellesDonneesY = values;
+
+            // Appelez la fonction de mise à jour avec les nouvelles données
+            updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY, capteur);
+          });
+        }
+        else
+        {
+          extractPromiseValue(barChart).then(resolvedValue => {
+            legraph = resolvedValue;
+
+            // Supposons que vous ayez de nouvelles données
+            var nouvellesDonneesX = times;
+            var nouvellesDonneesY = values;
+
+            // Appelez la fonction de mise à jour avec les nouvelles données
+            updateChart2(legraph, [], [], '');
+          });
+        }
+
+
 
 
 
 
         compt++;
-        // Mettre à jour le graphique après avoir reçu des données
-        // updateChart(barChart);
-        extractPromiseValue(barChart).then(resolvedValue => {
-          legraph = resolvedValue;
 
-          // Supposons que vous ayez de nouvelles données
-          var nouvellesDonneesX = times;
-          var nouvellesDonneesY = values;
-
-          // Appelez la fonction de mise à jour avec les nouvelles données
-          updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY,capteur);
-        });
         
         if (compt == 1) {
           eventSource.close();
