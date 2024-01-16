@@ -231,7 +231,6 @@
         }
       });
 
-      console.log('GRAPH CRERRR');
       return graph;
     }
 
@@ -254,8 +253,8 @@
         newDataYpred.push(newTime);
       }
       console.log('datax : ', newDataX, '    datay : ', newDataY, '    Pred : ', newDataXPred);
-      const tableauFusionne = newDataY.concat(newDataXPred);
-      const tableauFusionne2 = newDataX.concat(newDataYpred);
+      var tableauFusionne = newDataY.concat(newDataXPred);
+      var tableauFusionne2 = newDataX.concat(newDataYpred);
       // Mettre à jour les données de la première trace (indice 0)
       barChart.data[1].x = newDataX;
       barChart.data[1].y = newDataY;
@@ -273,7 +272,8 @@
 
 
       // Redessiner le graphique
-      console.log(barChart);
+      console.log('GRAPH CRERRR');
+
       Plotly.redraw(barChart);
     }
     function updateChart(barChart,values,times,capteur) {
@@ -334,7 +334,7 @@
     $('#container_bruit').hide();
     $('#container_µg').hide();
     add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
-    // add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+    add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
     // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
     // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
     // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
@@ -533,6 +533,7 @@
 
 
       eventPredict.onmessage = function (event) {
+
         data2 = JSON.parse(event.data.replace(/'/g, '"'));
         values_predict = data2.map(item => item.value);
 
@@ -546,8 +547,19 @@
           eventPredict.close();
         }
         if (values.length > 0) {
-          const valuesXPred = data2.map(item => item.value);
-          updateChart2(legraph, times, values, capteur,valuesXPred);
+
+          extractPromiseValue(barChart).then(resolvedValue => {
+            legraph = resolvedValue;
+            const valuesXPred = data2.map(item => item.value);
+
+            // Supposons que vous ayez de nouvelles données
+            updateChart2(legraph, times, values, capteur,valuesXPred);
+
+
+            // Appelez la fonction de mise à jour avec les nouvelles données
+
+
+          });
 
         }
         // Mettre à jour le graphique après avoir reçu des données
@@ -577,16 +589,7 @@
           console.log(capteur)
           // Mettre à jour le graphique après avoir reçu des données
           // updateChart(barChart);
-          extractPromiseValue(barChart).then(resolvedValue => {
-            legraph = resolvedValue;
 
-            // Supposons que vous ayez de nouvelles données
-
-
-            // Appelez la fonction de mise à jour avec les nouvelles données
-
-
-          });
         }
         else {
           // extractPromiseValue(barChart).then(resolvedValue => {
