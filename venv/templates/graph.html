@@ -20,6 +20,18 @@
 
   </div>
 
+  <div id="chargement" style="width: 100vw; height: 100vh;" class="bg-white/10 backdrop-blur-lg hidden fixed top-0 z-50">
+    <div class="flex justify-center items-center h-full mb-5" >
+      <div role="status" class="">
+        <svg aria-hidden="true" class="w-28 h-28 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+        </svg>
+        <span class="sr-only text-8xl">Loading...</span>
+      </div>
+      <h1 class="text-8xl">Loading...</h1>
+    </div>
+  </div>
   <div class="justify-center flex mb-5 mt-5 fade-in">
     <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
       <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
@@ -28,8 +40,8 @@
         <option value="D251">D251</option>
         <option value="D351">D351</option>
         <option value="D360">D360</option>
-        <option value="S10">Tetras (S10)</option>
-        <option value="S15">Tetras (S15)</option>
+        <!-- <option value="S10">Tetras (S10)</option>
+        <option value="S15">Tetras (S15)</option> -->
 
 
 
@@ -274,7 +286,15 @@
       // Redessiner le graphique
       console.log('GRAPH CRERRR');
 
+
       Plotly.redraw(barChart);
+      Plotly.redraw(barChart).then(function () {
+        // Code à exécuter une fois le redraw terminé
+        console.log("Redraw terminé !");
+        $('#chargement').addClass('hidden')
+
+        // Ajoutez ici le code que vous souhaitez exécuter après le redraw
+      });
     }
     function updateChart(barChart,values,times,capteur) {
       barChart.data.datasets[0].label = capteur;
@@ -317,17 +337,16 @@
 
     var temps = $('#temps').val()
 
-    var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d351/temperature/${temps}`);
+    var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
     var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
     var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
     var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
-    var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+    // var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
 
-    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d351/temperature`);
+    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
     var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
-    // var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
-    // // var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+    var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
     // var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
 
 
@@ -335,7 +354,7 @@
     $('#container_µg').hide();
     add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
     add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
-    // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
     // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
     // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
     // add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
@@ -353,19 +372,25 @@
         var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
         var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
-        var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+        
+
+        var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+        var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
+        var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
 
 
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
+        add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
+        add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
 
-
-        add_Data_toGraph(eventSourceD251, barChartTemperature)
-        add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D251_UV, barChartUV)
+        // add_Data_toGraph(eventSourceD251, barChartTemperature)
+        // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+        // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+        // add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+        // add_Data_toGraph(eventSource_D251_UV, barChartUV)
 
 
 
@@ -378,7 +403,17 @@
         var eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit/${temps}`);
         var eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite/${temps}`);
         var eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV/${temps}`);
-        var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+        // var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+
+        var eventSourceD351_prediction = new EventSource(`http://${host}:34/get_prediction/d351/temperature`);
+        var eventSource_D351_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d351/CO2`);
+        var eventSource_D351_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d351/luminosite`);
+        var eventSource_D351_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d351/humidite`);
+        var eventSource_D351_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d351/UV`);
+        // var eventSource_D351_µg_prediction = new EventSource(`http://${host}:34/get_prediction/d351/µg`);
+
+
+
 
 
 
@@ -387,15 +422,22 @@
         $('#container_UV').show();
         $('#container_µg').show();
 
+        add_Data_toGraph(eventSourceD351, barChartTemperature, eventSourceD351_prediction)
+        add_Data_toGraph(eventSource_D351_CO2, barChartCO2, eventSource_D351_CO2_prediction)
+        add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité, eventSource_D351_Lx_prediction)
+        add_Data_toGraph(eventSource_D351_pc, barChartHumidite, eventSource_D351_pc_prediction)
+        add_Data_toGraph(eventSource_D351_UV, barChartUV, eventSource_D351_UV_prediction)
+        // add_Data_toGraph(eventSource_D351_µg, barChartµg, eventSource_D351_µg_prediction)
 
 
-        add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
-        add_Data_toGraph(eventSourceD351, barChartTemperature)
-        add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D351_db, barChartBruit)
-        add_Data_toGraph(eventSource_D351_UV, barChartUV)
-        add_Data_toGraph(eventSource_D351_µg, barChartµg)
+
+        // add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
+        // add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
+        // add_Data_toGraph(eventSourceD351, barChartTemperature)
+        // add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
+        // add_Data_toGraph(eventSource_D351_db, barChartBruit)
+        // add_Data_toGraph(eventSource_D351_UV, barChartUV)
+        // add_Data_toGraph(eventSource_D351_µg, barChartµg)
 
 
 
@@ -411,7 +453,11 @@
         var eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite/${temps}`);
         var eventSource_D360_UV = new EventSource(`http://${host}:34/get_data/d360/UV/${temps}`);
 
-
+        var eventSourceD360_prediction = new EventSource(`http://${host}:34/get_prediction/d360/temperature`);
+        var eventSource_D360_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d360/CO2`);
+        var eventSource_D360_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d360/luminosite`);
+        var eventSource_D360_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d360/humidite`);
+        var eventSource_D360_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d360/UV`);
 
 
 
@@ -420,11 +466,11 @@
 
 
 
-        add_Data_toGraph(eventSourceD360, barChartCO2)
-        add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
-        add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D360_UV, barChartUV)
+        add_Data_toGraph(eventSourceD360,barChartTemperature ,eventSourceD360_prediction)
+        add_Data_toGraph(eventSource_D360_CO2,barChartCO2,eventSource_D360_CO2_prediction)
+        add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité,eventSource_D360_Lx_prediction)
+        add_Data_toGraph(eventSource_D360_pc, barChartHumidite,eventSource_D360_pc_prediction)
+        add_Data_toGraph(eventSource_D360_UV, barChartUV,eventSource_D360_UV_prediction)
 
 
 
@@ -441,19 +487,25 @@
         var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
         var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
-        var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
+        
+
+        var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+        var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
+        var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
 
 
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
+        add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
+        add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
 
-
-        add_Data_toGraph(eventSourceD251, barChartTemperature)
-        add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-        add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D251_UV, barChartUV)
+        // add_Data_toGraph(eventSourceD251, barChartTemperature)
+        // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+        // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+        // add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+        // add_Data_toGraph(eventSource_D251_UV, barChartUV)
 
 
 
@@ -466,7 +518,17 @@
         var eventSource_D351_db = new EventSource(`http://${host}:34/get_data/d351/bruit/${temps}`);
         var eventSource_D351_pc = new EventSource(`http://${host}:34/get_data/d351/humidite/${temps}`);
         var eventSource_D351_UV = new EventSource(`http://${host}:34/get_data/d351/UV/${temps}`);
-        var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+        // var eventSource_D351_µg = new EventSource(`http://${host}:34/get_data/d351/µg/${temps}`);
+
+        var eventSourceD351_prediction = new EventSource(`http://${host}:34/get_prediction/d351/temperature`);
+        var eventSource_D351_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d351/CO2`);
+        var eventSource_D351_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d351/luminosite`);
+        var eventSource_D351_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d351/humidite`);
+        var eventSource_D351_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d351/UV`);
+        // var eventSource_D351_µg_prediction = new EventSource(`http://${host}:34/get_prediction/d351/µg`);
+
+
+
 
 
 
@@ -475,15 +537,22 @@
         $('#container_UV').show();
         $('#container_µg').show();
 
+        add_Data_toGraph(eventSourceD351, barChartTemperature, eventSourceD351_prediction)
+        add_Data_toGraph(eventSource_D351_CO2, barChartCO2, eventSource_D351_CO2_prediction)
+        add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité, eventSource_D351_Lx_prediction)
+        add_Data_toGraph(eventSource_D351_pc, barChartHumidite, eventSource_D351_pc_prediction)
+        add_Data_toGraph(eventSource_D351_UV, barChartUV, eventSource_D351_UV_prediction)
+        // add_Data_toGraph(eventSource_D351_µg, barChartµg, eventSource_D351_µg_prediction)
 
 
-        add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
-        add_Data_toGraph(eventSourceD351, barChartTemperature)
-        add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D351_db, barChartBruit)
-        add_Data_toGraph(eventSource_D351_UV, barChartUV)
-        add_Data_toGraph(eventSource_D351_µg, barChartµg)
+
+        // add_Data_toGraph(eventSource_D351_pc, barChartHumidite)
+        // add_Data_toGraph(eventSource_D351_CO2, barChartCO2)
+        // add_Data_toGraph(eventSourceD351, barChartTemperature)
+        // add_Data_toGraph(eventSource_D351_Lx, barChartLuminosité)
+        // add_Data_toGraph(eventSource_D351_db, barChartBruit)
+        // add_Data_toGraph(eventSource_D351_UV, barChartUV)
+        // add_Data_toGraph(eventSource_D351_µg, barChartµg)
 
 
 
@@ -493,13 +562,18 @@
       }
       if ($('#salle').val() == 'D360') {
 
+
         var eventSourceD360 = new EventSource(`http://${host}:34/get_data/d360/temperature/${temps}`);
         var eventSource_D360_CO2 = new EventSource(`http://${host}:34/get_data/d360/CO2/${temps}`);
         var eventSource_D360_Lx = new EventSource(`http://${host}:34/get_data/d360/luminosite/${temps}`);
         var eventSource_D360_pc = new EventSource(`http://${host}:34/get_data/d360/humidite/${temps}`);
         var eventSource_D360_UV = new EventSource(`http://${host}:34/get_data/d360/UV/${temps}`);
 
-
+        var eventSourceD360_prediction = new EventSource(`http://${host}:34/get_prediction/d360/temperature`);
+        var eventSource_D360_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d360/CO2`);
+        var eventSource_D360_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d360/luminosite`);
+        var eventSource_D360_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d360/humidite`);
+        var eventSource_D360_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d360/UV`);
 
 
 
@@ -508,11 +582,11 @@
 
 
 
-        add_Data_toGraph(eventSourceD360, barChartCO2)
-        add_Data_toGraph(eventSource_D360_CO2, barChartTemperature)
-        add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité)
-        add_Data_toGraph(eventSource_D360_pc, barChartHumidite)
-        add_Data_toGraph(eventSource_D360_UV, barChartUV)
+        add_Data_toGraph(eventSourceD360,barChartTemperature ,eventSourceD360_prediction)
+        add_Data_toGraph(eventSource_D360_CO2,barChartCO2,eventSource_D360_CO2_prediction)
+        add_Data_toGraph(eventSource_D360_Lx, barChartLuminosité,eventSource_D360_Lx_prediction)
+        add_Data_toGraph(eventSource_D360_pc, barChartHumidite,eventSource_D360_pc_prediction)
+        add_Data_toGraph(eventSource_D360_UV, barChartUV,eventSource_D360_UV_prediction)
 
 
 
@@ -522,6 +596,8 @@
     })
 
     function add_Data_toGraph(eventSource, barChart, eventPredict) {
+      $('#chargement').removeClass('hidden')
+
       var compt = 0
       var compt2 = 0
       console.log(barChart)

@@ -3,7 +3,7 @@
     transform: translateY(20px);
     transition: opacity 1.5s, transform 1.5s;
 }
-*{font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
+*{font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; margin: 0;}
 .fade-in.is-visible {
     opacity: 1;
     transform: translateY(0);
