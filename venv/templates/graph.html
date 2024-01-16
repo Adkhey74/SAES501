@@ -231,7 +231,7 @@
         }
       });
 
-      console.log(graph);
+      console.log('GRAPH CRERRR');
       return graph;
     }
 
@@ -297,13 +297,14 @@
 
 
 
-    var barChartTemperature = create_graph('rgb(173, 216, 230)', 'temperature')
-    var barChartCO2 = create_graph('rgb(255, 255, 240)', 'CO2')
-    var barChartHumidite = create_graph('white', 'humidite')
-    var barChartUV = create_graph('purple', 'UV')
-    var barChartLuminosité = create_graph('rgb(255, 182, 193)', 'Luminosité')
-    var barChartBruit = create_graph('rgb(144, 238, 144)', 'Bruit')
-    var barChartµg = create_graph('rgb(144, 238, 144)', 'µg')
+    var barChartTemperature = create_graph2('rgb(173, 216, 230)', 'temperature')
+    console.log(barChartTemperature)
+    var barChartCO2 = create_graph2('rgb(255, 255, 240)', 'CO2')
+    var barChartHumidite = create_graph2('white', 'humidite')
+    var barChartUV = create_graph2('purple', 'UV')
+    var barChartLuminosité = create_graph2('rgb(255, 182, 193)', 'Luminosité')
+    var barChartBruit = create_graph2('rgb(144, 238, 144)', 'Bruit')
+    var barChartµg = create_graph2('rgb(144, 238, 144)', 'µg')
 
 
 
@@ -316,25 +317,25 @@
 
     var temps = $('#temps').val()
 
-    var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
+    var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d351/temperature/${temps}`);
     var eventSource_D251_CO2 = new EventSource(`http://${host}:34/get_data/d251/CO2/${temps}`);
     var eventSource_D251_Lx = new EventSource(`http://${host}:34/get_data/d251/luminosite/${temps}`);
     var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
     var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
 
-    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d351/temperature`);
     var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
-    var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
-    // var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
-    var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
+    // var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
+    // // var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+    // var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
 
 
     $('#container_bruit').hide();
     $('#container_µg').hide();
     add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
-    add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
-    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+    // add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+    // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
     // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
     // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
     // add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
@@ -523,6 +524,7 @@
     function add_Data_toGraph(eventSource, barChart, eventPredict) {
       var compt = 0
       var compt2 = 0
+      console.log(barChart)
 
       console.log('-------------------------------------')
       var data2 = []
@@ -545,7 +547,7 @@
         }
         if (values.length > 0) {
           const valuesXPred = data2.map(item => item.value);
-          updateChart(barChart, times, values, capteur);
+          updateChart2(legraph, times, values, capteur,valuesXPred);
 
         }
         // Mettre à jour le graphique après avoir reçu des données
@@ -575,16 +577,16 @@
           console.log(capteur)
           // Mettre à jour le graphique après avoir reçu des données
           // updateChart(barChart);
-          // extractPromiseValue(barChart).then(resolvedValue => {
-          //   legraph = resolvedValue;
+          extractPromiseValue(barChart).then(resolvedValue => {
+            legraph = resolvedValue;
 
-          //   // Supposons que vous ayez de nouvelles données
-
-
-          //   // Appelez la fonction de mise à jour avec les nouvelles données
+            // Supposons que vous ayez de nouvelles données
 
 
-          // });
+            // Appelez la fonction de mise à jour avec les nouvelles données
+
+
+          });
         }
         else {
           // extractPromiseValue(barChart).then(resolvedValue => {
