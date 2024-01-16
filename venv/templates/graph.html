@@ -20,82 +20,83 @@
 
   </div>
 
-    <div class="justify-center flex mb-5 mt-5 fade-in">
-      <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
-        <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
-            class="bi bi-building"></i></span>
-        <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
-          <option value="D251">D251</option>
-          <option value="D351">D351</option>
-          <option value="D360">D360</option>
-          <option value="S10">Tetras (S10)</option>
-          <option value="S15">Tetras (S15)</option>
-
-  
-  
-  
-        </select>
-        
-      </div>
-      <div class="input-group flex-nowrap mt-2 ml-2 " style="width: 10vw;">
-        <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i class="bi bi-clock-history"></i></span>
-        <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
-          <option value="1h">1h</option>
-          <option value="3h">3h</option>
-          <option value="6h" selected>6h</option>
-          <option value="12h">12h</option>
-          <option value="24h">24h</option>
-          <option value="2d">2d</option>
+  <div class="justify-center flex mb-5 mt-5 fade-in">
+    <div class="input-group flex-nowrap mt-2 " style="width: 30vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-building"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="salle">
+        <option value="D251">D251</option>
+        <option value="D351">D351</option>
+        <option value="D360">D360</option>
+        <option value="S10">Tetras (S10)</option>
+        <option value="S15">Tetras (S15)</option>
 
 
-  
-  
-  
-        </select>
-        
-      </div>
+
+
+      </select>
+
     </div>
+    <div class="input-group flex-nowrap mt-2 ml-2 " style="width: 10vw;">
+      <span class="input-group-text bg-gray-600 text-white border-none" id="addon-wrapping"><i
+          class="bi bi-clock-history"></i></span>
+      <select class="form-select bg-gray-600 text-white border-none" name="" id="temps">
+        <option value="1h">1h</option>
+        <option value="3h">3h</option>
+        <option value="6h" selected>6h</option>
+        <option value="12h">12h</option>
+        <option value="24h">24h</option>
+        <option value="2d">2d</option>
 
-  <div class="flex justify-center  align-items-start   " >
+
+
+
+
+      </select>
+
+    </div>
+  </div>
+
+  <div class="flex justify-center  align-items-start   ">
 
     <div class="grid grid-cols-2 gap-14 pr-5 fade-in" style="height: 80vh; overflow: auto;">
 
       <div id="container" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Temperature (°C)</h1>
-        <div id="temperature" class=" w-full" style="height: 40vh;" ></div>
+        <div id="temperature" class=" w-full" style="height: 40vh;"></div>
         <!-- <canvas  class="p-5 temperature" style="height: 28vh; width: 40vw;"></canvas> -->
       </div>
 
       <div id="container" class="bg-gray-800 rounded " style="height:50vh ; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">CO2 (ppm)</h1>
-        <div id="CO2" class=" w-full" style="height: 40vh;" ></div>
+        <div id="CO2" class=" w-full" style="height: 40vh;"></div>
       </div>
 
       <div id="container" class="bg-gray-800 rounded 0" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Luminosité (lx)</h1>
 
-        <div id="Luminosité" class=" w-full" style="height: 40vh;" ></div>
+        <div id="Luminosité" class=" w-full" style="height: 40vh;"></div>
       </div>
 
       <div id="container_bruit" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Bruit (db)</h1>
 
-        <div id="Bruit" class=" w-full" style="height: 40vh;" ></div>
+        <div id="Bruit" class=" w-full" style="height: 40vh;"></div>
       </div>
       <div id="container_humidite" class="bg-gray-800 rounded " style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Humidité (%)</h1>
 
-        <div id="humidite" class=" w-full" style="height: 40vh;" ></div>
+        <div id="humidite" class=" w-full" style="height: 40vh;"></div>
       </div>
       <div id="container_UV" class="bg-gray-800 rounded" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Ultras Violet (UV)</h1>
 
-        <div id="UV" class=" w-full" style="height: 40vh;" ></div>
+        <div id="UV" class=" w-full" style="height: 40vh;"></div>
       </div>
       <div id="container_µg" class="bg-gray-800 rounded" style="height: 50vh; width: fit-content;">
         <h1 class="text-white p-3 flex justify-center" style="width: 40vw;">Qualité de l'air (µg/m³)</h1>
 
-        <div id="µg" class=" w-full" style="height: 40vh;" ></div>
+        <div id="µg" class=" w-full" style="height: 40vh;"></div>
       </div>
     </div>
   </div>
@@ -124,30 +125,43 @@
 
 
 <script>
-  
+
   document.addEventListener("DOMContentLoaded", function () {
     var host = window.location.hostname;
-    function create_graph(color,classgraph)
-    {
-        var name = new Chart($(classgraph), {
+    function create_graph(color, classgraph) {
+      var name = new Chart($(classgraph), {
         type: 'line',
         data: {
           labels: [],
-          datasets: [{
-            data: [],
-            borderWidth: 2,
-            borderColor: color,
-            backgroundColor: color
-
-          }]
+          datasets: [
+            {
+              label: 'Trace 1',
+              data: [],
+              borderWidth: 2,
+              borderColor: color,
+              backgroundColor: color
+            },
+            {
+              label: 'Trace 2',
+              data: [],  // Ajoutez vos données pour la deuxième trace Y ici
+              borderWidth: 2,
+              borderColor: 'red',  // Couleur de la deuxième trace Y
+              backgroundColor: 'red'
+            }
+          ]
         },
         options: {
           responsive: true,
-
           scales: {
             y: {
               ticks: {
                 color: 'white'
+              }
+            },
+            y1: {  // Ajoutez une deuxième échelle Y
+              position: 'right',  // Positionnez la deuxième échelle à droite
+              ticks: {
+                color: 'red'  // Couleur des ticks de la deuxième échelle
               }
             },
             x: {
@@ -158,93 +172,117 @@
           },
           legend: {
             labels: {
-              fontColor: 'white' // Définir la couleur du texte de la légende
+              fontColor: 'white' // Couleur du texte de la légende
             }
           }
         }
       });
 
-    return name
+      return name
     }
     function create_graph2(color, classgraph) {
       TESTER = document.getElementById(classgraph);
-       // Définir le type de trace par défaut comme "scatter"
-      var trace = {
-        x: [],
-        y: [],
-        line: { color: color },
-        mode: 'lines+markers',
-        name: 'Nouveau Texte'  // Remplacez 'Nouveau Texte' par le texte que vous souhaitez afficher dans la légende
 
-        
+      // Définir le type de trace par défaut comme "scatter"
+      var trace1 = {
+        x: [],  // Données de la première trace pour l'axe x
+        y: [],  // Données de la première trace pour l'axe y
+        line: { color: 'red' },
+
+        mode: 'lines+markers',
+        name: 'Première Trace'  // Remplacez 'Première Trace' par le texte que vous souhaitez afficher dans la légende
       };
+
+      var trace2 = {
+        line: { color: color },
+        x: [],  // Données de la deuxième trace pour l'axe x
+        y: [],  // Données de la deuxième trace pour l'axe y
+        mode: 'lines+markers',
+        name: 'Deuxième Trace'  // Remplacez 'Deuxième Trace' par le texte que vous souhaitez afficher dans la légende
+      };
+
       var traceType = 'scatter';
 
       if (traceType) {
-        trace.type = traceType;
+        trace1.type = traceType;
+        trace2.type = traceType;
       }
-      var graph = Plotly.newPlot(TESTER, [trace], {
-        margin:{t:40},
-        animate: true, // Active l'animation
- // Ajoutez le padding en ajustant ces valeurs
+
+      var graph = Plotly.newPlot(TESTER, [trace1, trace2], {
+        margin: { t: 40 },
+        animate: true,
         paper_bgcolor: 'rgb(45, 55, 72)',
         plot_bgcolor: 'rgb(45, 55, 72)',
         showlegend: true,
         legend: {
           font: {
-            color: 'white' ,
-
+            color: 'white',
           },
-          x: 0.35, 
-          y: 1.5 
+          x: 0.35,
+          y: 1.5,
         },
-  // Définir la couleur du fond
         xaxis: {
           tickfont: { color: 'white' },
-          showgrid: true, 
+          showgrid: true,
         },
         yaxis: {
-          tickfont: { color: 'white' },  // Couleur du texte pour l'axe y
-          showgrid: true, 
-
+          tickfont: { color: 'white' },
+          showgrid: true,
         }
       });
 
-      console.log(graph);  // Afficher l'objet graph dans la console
-
+      console.log(graph);
       return graph;
     }
 
 
 
-    function updateChart(barChart) {
+
+    function updateChart2(barChart, newDataX, newDataY, capteur, newDataXPred) {
+      console.log('datax : ', newDataX, '    datay : ', newDataY, '    Pred : ', newDataXPred);
+      console.log(barChart);
+      newDataYpred = []
+      const lastTime = newDataX[newDataX.length - 1]; // Obtenez la dernière valeur
+
+      // Convertissez lastTime en objet Date
+      const lastDate = new Date(`2022-01-01 ${lastTime}`);
+
+      // Ajoutez 5 minutes à chaque itération et ajoutez les nouvelles valeurs à newDataX
+      for (let i = 0; i < 10; i++) {
+        lastDate.setMinutes(lastDate.getMinutes() + 5);
+        const newTime = lastDate.toLocaleTimeString('en-US', { hour12: false });
+        newDataYpred.push(newTime);
+      }
+      console.log('datax : ', newDataX, '    datay : ', newDataY, '    Pred : ', newDataXPred);
+      const tableauFusionne = newDataY.concat(newDataXPred);
+      const tableauFusionne2 = newDataX.concat(newDataYpred);
+      // Mettre à jour les données de la première trace (indice 0)
+      barChart.data[1].x = newDataX;
+      barChart.data[1].y = newDataY;
+      barChart.data[1].name = capteur;
+
+
+      // Mettre à jour les données de la deuxième trace (indice 1)
+      barChart.data[0].x = tableauFusionne2;
+      barChart.data[0].y = tableauFusionne;
+      barChart.data[0].name = 'Prediction';
+
+
+
+
+
+
+      // Redessiner le graphique
+      console.log(barChart);
+      Plotly.redraw(barChart);
+    }
+    function updateChart(barChart,values,times,capteur) {
       barChart.data.datasets[0].label = capteur;
       barChart.data.labels = times;
       barChart.data.datasets[0].data = values;
       barChart.update();
       // Mettre à jour le graphique sans le recréer
     }
-    function updateChart2(barChart, newDataX, newDataY,capteur) {
-      console.log('datax : ', newDataX, '    datay : ', newDataY);
-      console.log(barChart);
-      Plotly.animate(barChart, {
-        data: [{ x: newDataX, y: newDataY }],
-      }, {
-        transition: {
-          duration: 500, // Durée de l'animation en millisecondes
-          easing: 'cubic-in-out', // Fonction d'interpolation pour l'animation
-        },
-      });
-      // Mettre à jour les données de la première trace (indice 0) dans barChart, pas dans une variable appelée 'graph'
-      barChart.data[0].x = newDataX;
-      barChart.data[0].y = newDataY;
-      barChart.data[0].name = capteur;
-
-
-      // Redessiner le graphique
-      Plotly.redraw(barChart);
-    }
-
 
     function extractPromiseValue(promise) {
       return promise.then(value => value);
@@ -258,24 +296,24 @@
 
 
 
-    
-    var barChartTemperature = create_graph2('rgb(173, 216, 230)','temperature')
-    var barChartCO2 = create_graph2('rgb(255, 255, 240)','CO2')
-    var barChartHumidite = create_graph2('white','humidite')
-    var barChartUV = create_graph2('purple','UV')
-    var barChartLuminosité = create_graph2('rgb(255, 182, 193)','Luminosité')
-    var barChartBruit = create_graph2('rgb(144, 238, 144)','Bruit')
-    var barChartµg = create_graph2('rgb(144, 238, 144)','µg')
+
+    var barChartTemperature = create_graph('rgb(173, 216, 230)', 'temperature')
+    var barChartCO2 = create_graph('rgb(255, 255, 240)', 'CO2')
+    var barChartHumidite = create_graph('white', 'humidite')
+    var barChartUV = create_graph('purple', 'UV')
+    var barChartLuminosité = create_graph('rgb(255, 182, 193)', 'Luminosité')
+    var barChartBruit = create_graph('rgb(144, 238, 144)', 'Bruit')
+    var barChartµg = create_graph('rgb(144, 238, 144)', 'µg')
 
 
 
 
     // Initialiser le graphique une seule fois
-   
-    
 
-      
-      
+
+
+
+
     var temps = $('#temps').val()
 
     var eventSourceD251 = new EventSource(`http://${host}:34/get_data/d251/temperature/${temps}`);
@@ -285,14 +323,22 @@
     var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
 
+    var eventSourceD251_prediction = new EventSource(`http://${host}:34/get_prediction/d251/temperature`);
+    var eventSource_D251_CO2_prediction = new EventSource(`http://${host}:34/get_prediction/d251/CO2`);
+    var eventSource_D251_Lx_prediction = new EventSource(`http://${host}:34/get_prediction/d251/luminosite`);
+    // var eventSource_D251_pc_prediction = new EventSource(`http://${host}:34/get_prediction/d251/humidite`);
+    var eventSource_D251_UV_prediction = new EventSource(`http://${host}:34/get_prediction/d251/UV`);
+
 
     $('#container_bruit').hide();
     $('#container_µg').hide();
-    add_Data_toGraph(eventSourceD251, barChartTemperature)
-    add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
-    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
-    add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
-    add_Data_toGraph(eventSource_D251_UV, barChartUV)
+    add_Data_toGraph(eventSourceD251, barChartTemperature, eventSourceD251_prediction)
+    add_Data_toGraph(eventSource_D251_CO2, barChartCO2, eventSource_D251_CO2_prediction)
+    add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité, eventSource_D251_Lx_prediction)
+    // add_Data_toGraph(eventSource_D251_CO2, barChartCO2)
+    // add_Data_toGraph(eventSource_D251_Lx, barChartLuminosité)
+    // add_Data_toGraph(eventSource_D251_pc, barChartHumidite)
+    // add_Data_toGraph(eventSource_D251_UV, barChartUV)
 
 
 
@@ -308,7 +354,7 @@
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
         var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
-        
+
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
@@ -396,7 +442,7 @@
         var eventSource_D251_pc = new EventSource(`http://${host}:34/get_data/d251/humidite/${temps}`);
         var eventSource_D251_UV = new EventSource(`http://${host}:34/get_data/d251/UV/${temps}`);
 
-        
+
         $('#container_bruit').hide();
         $('#container_µg').hide();
 
@@ -474,9 +520,40 @@
       }
     })
 
-    function add_Data_toGraph(eventSource, barChart) {
+    function add_Data_toGraph(eventSource, barChart, eventPredict) {
       var compt = 0
+      var compt2 = 0
 
+      console.log('-------------------------------------')
+      var data2 = []
+      var values = []
+      var times = []
+
+
+      eventPredict.onmessage = function (event) {
+        data2 = JSON.parse(event.data.replace(/'/g, '"'));
+        values_predict = data2.map(item => item.value);
+
+        console.log(values_predict)
+
+        console.log(event.data)
+        compt2++;
+
+
+        if (compt2 == 1) {
+          eventPredict.close();
+        }
+        if (values.length > 0) {
+          const valuesXPred = data2.map(item => item.value);
+          updateChart(barChart, times, values, capteur);
+
+        }
+        // Mettre à jour le graphique après avoir reçu des données
+
+        // Traiter les données reçues
+
+
+      };
       eventSource.onmessage = function (event) {
         var data = JSON.parse(event.data);
 
@@ -486,8 +563,7 @@
         console.log(data)
 
 
-        if( data.length > 0)
-        {
+        if (data.length > 0) {
           console.log(data[0])
           values = data.map(item => item.value);
           times = data.map(item => formatTime(item.time));
@@ -499,30 +575,30 @@
           console.log(capteur)
           // Mettre à jour le graphique après avoir reçu des données
           // updateChart(barChart);
-          extractPromiseValue(barChart).then(resolvedValue => {
-            legraph = resolvedValue;
+          // extractPromiseValue(barChart).then(resolvedValue => {
+          //   legraph = resolvedValue;
 
-            // Supposons que vous ayez de nouvelles données
-            var nouvellesDonneesX = times;
-            var nouvellesDonneesY = values;
+          //   // Supposons que vous ayez de nouvelles données
 
-            // Appelez la fonction de mise à jour avec les nouvelles données
-            updateChart2(legraph, nouvellesDonneesX, nouvellesDonneesY, capteur);
-          });
+
+          //   // Appelez la fonction de mise à jour avec les nouvelles données
+
+
+          // });
         }
-        else
-        {
-          extractPromiseValue(barChart).then(resolvedValue => {
-            legraph = resolvedValue;
+        else {
+          // extractPromiseValue(barChart).then(resolvedValue => {
+          //   legraph = resolvedValue;
 
-            // Supposons que vous ayez de nouvelles données
-            var nouvellesDonneesX = times;
-            var nouvellesDonneesY = values;
+          //   // Supposons que vous ayez de nouvelles données
+          //   var nouvellesDonneesX = times;
+          //   var nouvellesDonneesY = values;
 
-            // Appelez la fonction de mise à jour avec les nouvelles données
-            updateChart2(legraph, [], [], '');
-          });
+          //   // Appelez la fonction de mise à jour avec les nouvelles données
+          //   updateChart2(legraph, [], [], '');
+          // });
         }
+
 
 
 
@@ -531,11 +607,14 @@
 
         compt++;
 
-        
+
         if (compt == 1) {
           eventSource.close();
         }
       };
+
+
+
     }
 
 

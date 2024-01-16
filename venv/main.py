@@ -29,9 +29,10 @@ def home():
     # Votre logique de traitement peut être ajoutée ici
     # Par exemple, rendre un modèle avec render_template
 
-    # Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
-    # pred = predict(key="ppm")
-    
+    # (d351)Possible keys = ["%","dBA", "lx", "µg/m³", "°C", "ppm", "UV index"] / UV index pas précis car les données sont très mauvaises
+    # (d251 et d360)Possible keys = ["lx", "°C", "ppm", "UV index"]
+    # Possible salles = ["d251", "d351", "d360"]
+
     return render_template('home.html',active_page='Home')
 
 @app.route('/graph.html')
@@ -122,16 +123,7 @@ def get_data(salle, unite,temps):
     query = f'from(bucket: "IUT_BUCKET")|> range(start: -{temps} )|> filter(fn: (r) => r["_measurement"] == "{measurement}")|> filter(fn: (r) => r["_field"] == "value")|> filter(fn: (r) => r["domain"] == "sensor")|> filter(fn: (r) => r["entity_id"] == "{entity_id}")|> yield(name: "mean")'
     print(query)
 
-    # query = f'''
-    #     import "strings"
-    #     from(bucket: "IUT_BUCKET")
-    #     |> range(start: -{temps})
-    #     |> filter(fn: (r) => r["_measurement"] == "{measurement}")
-    #     |> filter(fn: (r) => r["_field"] == "value")
-    #     |> filter(fn: (r) => r["domain"] == "sensor")
-    #     |> filter(fn: (r) => strings.hasPrefix(v: r["entity_id"], prefix: "{entity_id}"))
-    #     |> yield(name: "mean")
-    # '''
+
     # Get the Query API
     query_api = client.query_api()
 
@@ -164,6 +156,27 @@ def get_data(salle, unite,temps):
     
     return Response(generate(res),content_type='text/event-stream')
 
+@app.route('/get_prediction/<salle>/<unite>')
+def get_prediction(salle,unite):
+    if unite.lower() == "co2":
+        measurement = 'ppm'
+    elif unite.lower() == "temperature":
+        measurement = '°C'
+    elif unite.lower() == "luminosite":
+        measurement = 'lx'
+    elif unite.lower() == "bruit":
+        measurement = 'dBA'
+    elif unite.lower() == "humidite":
+        measurement = '%'
+    elif unite.lower() == "uv":
+        measurement = 'UV index'
+    elif unite.lower() == "µg":
+        measurement = 'µg/m³'
+    
+    pred = predict(key=measurement, salle =salle)
+    print('PREDICTION')
+    print(pred)
+    return Response(f"data: {pred}\n\n",content_type='text/event-stream')
 def generate(res):
     print(res)
     yield f"data: {json.dumps(res)}\n\n"

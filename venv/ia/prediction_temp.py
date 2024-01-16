@@ -22,7 +22,7 @@ from tensorflow.keras.models import load_model
 
 index_key = 0
 
-def recuperation_donnees(time = '100y'):
+def recuperation_donnees(time = '100y', salle = "d251"):
     #Define input and output
     path   = '/content/drive/My Drive/SAE capteur/'
 
@@ -35,8 +35,14 @@ def recuperation_donnees(time = '100y'):
     # Create a client
     client = InfluxDBClient(url=url, token=token, org=org, timeout=0)
 
-    # Create a query
-    query = f'from(bucket: "IUT_BUCKET") |> range(start: -{time}) |> filter(fn: (r) => r["_measurement"] == "%" or r["_measurement"] == "UV index" or r["_measurement"] == "µg/m³" or r["_measurement"] == "°C" or r["_measurement"] == "ppm" or r["_measurement"] == "lx" or r["_measurement"] == "dBA") |> filter(fn: (r) => r["entity_id"] == "d351_1_co2_air_temperature" or r["entity_id"] == "d351_1_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_1_co2_dew_point" or r["entity_id"] == "d351_1_co2_humidity" or r["entity_id"] == "d351_1_multisensor9_air_temperature" or r["entity_id"] == "d351_1_multisensor9_carbon_dioxide_co2_level" or r["entity_id"] == "d351_1_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_1_multisensor9_humidity" or r["entity_id"] == "d351_1_multisensor9_illuminance" or r["entity_id"] == "d351_1_multisensor9_loudness" or r["entity_id"] == "d351_1_multisensor9_particulate_matter_2_5" or r["entity_id"] == "d351_1_multisensor9_volatile_organic_compound_level" or r["entity_id"] == "d351_1_multisensor9_smoke_density" or r["entity_id"] == "d351_1_multisensor_air_temperature" or r["entity_id"] == "d351_1_multisensor_humidity" or r["entity_id"] == "d351_1_multisensor_illuminance" or r["entity_id"] == "d351_1_multisensor_ultraviolet" or r["entity_id"] == "d351_2_co2_air_temperature" or r["entity_id"] == "d351_2_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_2_co2_dew_point" or r["entity_id"] == "d351_2_co2_humidity" or r["entity_id"] == "d351_2_multisensor_air_temperature" or r["entity_id"] == "d351_2_multisensor_humidity" or r["entity_id"] == "d351_2_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_2_multisensor_illuminance" or r["entity_id"] == "d351_2_multisensor_ultraviolet" or r["entity_id"] == "d351_3_co2_air_temperature" or r["entity_id"] == "d351_3_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_3_co2_dew_point" or r["entity_id"] == "d351_3_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_3_co2_humidity") |> filter(fn: (r) => r["_field"] == "value") |> aggregateWindow(every: 1h, fn: mean, createEmpty: false) |> yield(name: "mean")'
+    if salle == "d251":
+        query = f'from(bucket: "IUT_BUCKET") |> range(start: -{time}) |> filter(fn: (r) => r["_measurement"] == "UV index" or r["_measurement"] == "dBA" or r["_measurement"] == "lx" or r["_measurement"] == "ppm" or r["_measurement"] == "°C" or r["_measurement"] == "µg/m³") |> filter(fn: (r) => r["_field"] == "value") |> filter(fn: (r) => r["domain"] == "sensor") |> filter(fn: (r) => r["entity_id"] == "d251_1_multisensor_ultraviolet" or r["entity_id"] == "d251_1_multisensor_illuminance" or r["entity_id"] == "d251_1_multisensor_air_temperature" or r["entity_id"] == "d251_1_co2_volatile_organic_compound_level" or r["entity_id"] == "d251_1_co2_dew_point" or r["entity_id"] == "d251_1_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d251_1_co2_air_temperature") |> filter(fn: (r) => r["entity_id"] !~ /dew/) |> filter(fn: (r) => r["entity_id"] !~ /compound/) |> aggregateWindow(every: 1h, fn: mean, createEmpty: false) |> yield(name: "mean")'
+
+    elif salle == "d351":
+        query = f'from(bucket: "IUT_BUCKET") |> range(start: -{time}) |> filter(fn: (r) => r["_measurement"] == "%" or r["_measurement"] == "UV index" or r["_measurement"] == "µg/m³" or r["_measurement"] == "°C" or r["_measurement"] == "ppm" or r["_measurement"] == "lx" or r["_measurement"] == "dBA") |> filter(fn: (r) => r["entity_id"] == "d351_1_co2_air_temperature" or r["entity_id"] == "d351_1_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_1_co2_dew_point" or r["entity_id"] == "d351_1_co2_humidity" or r["entity_id"] == "d351_1_multisensor9_air_temperature" or r["entity_id"] == "d351_1_multisensor9_carbon_dioxide_co2_level" or r["entity_id"] == "d351_1_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_1_multisensor9_humidity" or r["entity_id"] == "d351_1_multisensor9_illuminance" or r["entity_id"] == "d351_1_multisensor9_loudness" or r["entity_id"] == "d351_1_multisensor9_particulate_matter_2_5" or r["entity_id"] == "d351_1_multisensor9_volatile_organic_compound_level" or r["entity_id"] == "d351_1_multisensor9_smoke_density" or r["entity_id"] == "d351_1_multisensor_air_temperature" or r["entity_id"] == "d351_1_multisensor_humidity" or r["entity_id"] == "d351_1_multisensor_illuminance" or r["entity_id"] == "d351_1_multisensor_ultraviolet" or r["entity_id"] == "d351_2_co2_air_temperature" or r["entity_id"] == "d351_2_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_2_co2_dew_point" or r["entity_id"] == "d351_2_co2_humidity" or r["entity_id"] == "d351_2_multisensor_air_temperature" or r["entity_id"] == "d351_2_multisensor_humidity" or r["entity_id"] == "d351_2_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_2_multisensor_illuminance" or r["entity_id"] == "d351_2_multisensor_ultraviolet" or r["entity_id"] == "d351_3_co2_air_temperature" or r["entity_id"] == "d351_3_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d351_3_co2_dew_point" or r["entity_id"] == "d351_3_co2_volatile_organic_compound_level" or r["entity_id"] == "d351_3_co2_humidity") |> filter(fn: (r) => r["_field"] == "value") |> filter(fn: (r) => r["entity_id"] !~ /dew/) |> filter(fn: (r) => r["entity_id"] !~ /compound/) |> filter(fn: (r) => r["entity_id"] !~ /smoke/) |> aggregateWindow(every: 1h, fn: mean, createEmpty: false) |> yield(name: "mean")'
+
+    elif salle == "d360":
+        query = f'from(bucket: "IUT_BUCKET") |> range(start: -{time}) |> filter(fn: (r) => r["_measurement"] == "UV index" or r["_measurement"] == "dBA" or r["_measurement"] == "lx" or r["_measurement"] == "ppm" or r["_measurement"] == "°C" or r["_measurement"] == "µg/m³") |> filter(fn: (r) => r["_field"] == "value") |> filter(fn: (r) => r["domain"] == "sensor") |> filter(fn: (r) => r["entity_id"] == "d360_1_multisensor_ultraviolet_2" or r["entity_id"] == "d360_1_multisensor_illuminance_2" or r["entity_id"] == "d360_1_multisensor_air_temperature_2" or r["entity_id"] == "d360_1_co2_volatile_organic_compound_level" or r["entity_id"] == "d360_1_co2_carbon_dioxide_co2_level" or r["entity_id"] == "d360_1_co2_dew_point" or r["entity_id"] == "d360_1_co2_air_temperature") |> filter(fn: (r) => r["entity_id"] !~ /dew/) |> filter(fn: (r) => r["entity_id"] !~ /compound/)  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false) |> yield(name: "mean")'
 
     # Get the Query API
     query_api = client.query_api()
@@ -350,6 +356,7 @@ def pred_split(organized_dataX):
 
 
     X = np.array(X)
+    print(X)
 
     return X
 
@@ -364,9 +371,9 @@ def prediction(model, X):
     return predictions
 
     
-def predict(key='°C'):
-    model = load_model(f'/app/ia/model/model_{key}.h5')
-    result = recuperation_donnees('10h')
+def predict(key='°C', salle = "d251"):
+    model = load_model(f'/app/ia/model/{salle}/model_{key}.h5')
+    result = recuperation_donnees('10h', salle)
     data_by_measurement = stockage_result(result)
 
     # liste_des_cles = list(data_by_measurement.keys())
@@ -375,6 +382,14 @@ def predict(key='°C'):
     data_by_measurement_normalized, data_by_measurement_no_normalized = traitement_donnees(data_by_measurement)
     organized_dataX, organized_dataY = structure(data_by_measurement_normalized, data_by_measurement_no_normalized)
     X = pred_split(organized_dataX)
-    pred = prediction(model,X)
-    print("Les prédictions", pred)
-    return pred
+    tab_res = []
+
+    pred = prediction(model,X) 
+    for table in pred:
+        for record in table:
+                tab_res.append({
+                    'value': record,
+
+                })    
+    print("Les prédictions", tab_res)
+    return tab_res
