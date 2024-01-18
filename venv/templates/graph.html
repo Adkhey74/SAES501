@@ -323,6 +323,7 @@
       // Mettre à jour les données de la première trace (indice 0)
       barChart.data[1].x = newDataX;
       barChart.data[1].y = newDataY;
+      console.log(capteur)
       barChart.data[1].name = capteur;
 
 
@@ -549,6 +550,7 @@
       var data2 = []
       var values = []
       var times = []
+      var capteur = ''
 
 
       eventPredict.onmessage = function (event) {
