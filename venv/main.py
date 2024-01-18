@@ -171,7 +171,7 @@ def get_prediction(salle,unite):
     elif unite.lower() == "uv":
         measurement = 'UV index'
     elif unite.lower() == "µg":
-        measurement = 'µg/m³'
+        measurement = 'µgm³'
     
     pred = predict(key=measurement, salle =salle)
     print('PREDICTION')
