@@ -205,6 +205,13 @@ def configuration():
     return render_template('configuration.html',active_page='Configuration')
 
 
+@app.route('/grafana.html')
+def grafana():
+    # Votre logique de traitement peut être ajoutée ici
+    # Par exemple, rendre un modèle avec render_template
+    return render_template('grafana.html',active_page='Grafana')
+
+
 
 
 
